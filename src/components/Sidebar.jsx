@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaUsers, FaFileInvoice, FaUserTie } from "react-icons/fa";
+import { FaUsers, FaFileInvoice, FaUserTie,FaCoins ,FaGem  } from "react-icons/fa";
 import "../css/Sidebar.css";
 
 function Sidebar() {
@@ -23,7 +23,17 @@ function Sidebar() {
             Customers
           </NavLink>
         </li>
-
+        <li>
+          <NavLink
+            to="/items"
+            className={({ isActive }) =>
+              "menu-link" + (isActive ? " active" : "")
+            }
+          >
+            <FaGem   className="menu-icon" />
+            Items
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/invoices"
@@ -38,13 +48,13 @@ function Sidebar() {
 
         <li>
           <NavLink
-            to="/employees"
+            to="/users"
             className={({ isActive }) =>
               "menu-link" + (isActive ? " active" : "")
             }
           >
             <FaUserTie className="menu-icon" />
-            Employees
+            Users
           </NavLink>
         </li>
 

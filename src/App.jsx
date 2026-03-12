@@ -2,9 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 //import Dashboard from "./pages/Dashboard";
 import Customers from "./pages/Customers";
 import Invoices from "./pages/Invoices";
-import Employees from "./pages/Employees";
+import Users from "./pages/Users";
+import Items from "./pages/Items";
 import Login from "./pages/Login";
 import AdminLayout from "./layouts/AdminLayout";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -12,11 +14,12 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route path="/" element={<AdminLayout />}>
+        <Route path="/" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           {/* <Route path="dashboard" element={<Dashboard />} /> */}
-          <Route path="customers" element={<Customers />} />
-          <Route path="invoices" element={<Invoices />} />
-          <Route path="employees" element={<Employees />} />
+          <Route path="customers" element={<ProtectedRoute><Customers /></ProtectedRoute>} />
+          <Route path="items" element={<ProtectedRoute><Items /></ProtectedRoute>} />
+          <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
+          <Route path="users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

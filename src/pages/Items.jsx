@@ -1,37 +1,47 @@
-import { useState, useEffect } from "react";
-import { getCustomers, createCustomer, updateCustomer,deleteCustomer } from "../services/customerService";
+import { useEffect, useState } from "react";
+import { getItems, createItem, updateItem, deleteItem } from "../services/itemService";
 
-function Customers() {
+function Items() {
 
-  const [customers, setCustomers] = useState([]);
+  const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
 
   const [form, setForm] = useState({
     name: "",
-    phone: "",
-    civilId: "",
-    address: ""
+    description: "",
+    purity: "",
+    weight: "",
+    price: "",
+    premium: ""
   });
 
   useEffect(() => {
-    loadCustomers();
+    loadItems();
   }, []);
 
-  const loadCustomers = async () => {
-    const response = await getCustomers();
-    setCustomers(response.data || []);
+  const loadItems = async () => {
+    const data = await getItems();
+    setItems(data.data || data);
   };
 
   const openAddModal = () => {
-    setForm({ name:"", phone:"", civilId:"", address:"" });
+    setForm({
+      name: "",
+      description: "",
+      purity: "",
+      weight: "",
+      price: "",
+      premium: ""
+    });
+
     setEditId(null);
     setShowModal(true);
   };
 
-  const openEditModal = (customer) => {
-    setForm(customer);
-    setEditId(customer._id);
+  const openEditModal = (item) => {
+    setForm(item);
+    setEditId(item._id);
     setShowModal(true);
   };
 
@@ -45,46 +55,35 @@ function Customers() {
   const handleSave = async () => {
 
     if(editId){
-      await updateCustomer(editId, form);
+      await updateItem(editId, form);
     }else{
-      await createCustomer(form);
+      await createItem(form);
     }
 
     setShowModal(false);
-    loadCustomers();
+    loadItems();
   };
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    if (files && files[0]) {
-      setForm((prev) => ({
-        ...prev,
-        [name]: files[0]  // store File object
-      }));
+
+  const handleDelete = async (id) => {
+
+    if(window.confirm("Delete this item?")){
+      await deleteItem(id);
+      loadItems();
     }
+
   };
-const handleDelete = async (id) => {
-  try {
-    // Call API to delete
-    await deleteCustomer(id); // replace with your API function
 
-    // Update local state to remove deleted record
-    setCustomers((prev) => prev.filter((cust) => cust._id !== id));
-
-    // Show success alert
-    alert("Customer deleted successfully!");
-  } catch (error) {
-    console.error("Delete failed:", error);
-    alert("Failed to delete customer.");
-  }
-};
   return (
     <div className="container mt-4">
 
       <div className="d-flex justify-content-between mb-3">
-        <h3>Customers</h3>
+        <h3>Items</h3>
 
-        <button className="btn btn-primary" onClick={openAddModal}>
-          Add Customer
+        <button
+          className="btn btn-primary"
+          onClick={openAddModal}
+        >
+          Add Item
         </button>
       </div>
 
@@ -93,33 +92,42 @@ const handleDelete = async (id) => {
         <thead className="table-dark">
           <tr>
             <th>Name</th>
-            <th>Phone</th>
-            <th>Civil Id</th>
-            <th>Address</th>
+            <th>Purity</th>
+            <th>Weight</th>
+            <th>Price</th>
+            <th>Premium</th>
             <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
 
-          {customers.map((c)=>(
-            <tr key={c._id}>
-              <td>{c.name}</td>
-              <td>{c.phone}</td>
-              <td>{c.civilId}</td>
-              <td>{c.address}</td>
+          {items.map((item)=>(
+            <tr key={item._id}>
+              <td>{item.name}</td>
+              <td>{item.purity}</td>
+              <td>{item.weight}</td>
+              <td>{item.price}</td>
+              <td>{item.premium}</td>
+
               <td>
+
                 <button
-                  className="btn btn-sm btn-warning"
-                  onClick={()=>openEditModal(c)}
+                  className="btn btn-sm btn-warning me-2"
+                  onClick={()=>openEditModal(item)}
                 >
                   Edit
                 </button>
+
                 <button
-                  className="btn btn-sm btn-danger mx-2"
-                  onClick={() => handleDelete(c._id)}
-                >Delete</button>
+                  className="btn btn-sm btn-danger"
+                  onClick={()=>handleDelete(item._id)}
+                >
+                  Delete
+                </button>
+
               </td>
+
             </tr>
           ))}
 
@@ -134,20 +142,27 @@ const handleDelete = async (id) => {
         <div className="modal show d-block">
 
           <div className="modal-dialog">
+
             <div className="modal-content">
 
               <div className="modal-header">
-                <h5>{editId ? "Edit Customer" : "Add Customer"}</h5>
+
+                <h5>
+                  {editId ? "Edit Item" : "Add Item"}
+                </h5>
+
                 <button
                   className="btn-close"
                   onClick={()=>setShowModal(false)}
                 />
+
               </div>
 
               <div className="modal-body">
-
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Name</label></div>
+                  <div className="col-3">
+                    <label className="form-label">Name</label>
+                  </div>
                   <div className="col-9">
                     <input
                       className="form-control"
@@ -159,65 +174,74 @@ const handleDelete = async (id) => {
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Phone</label></div>
+                  <div className="col-3">
+                    <label className="form-label">Description</label>
+                  </div>
                   <div className="col-9">
                     <input
                       className="form-control"
-                      name="phone"
-                      value={form.phone}
+                      name="description"
+                      value={form.description}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Civil ID</label></div>
+                  <div className="col-3">
+                    <label className="form-label">Purity</label>
+                  </div>
                   <div className="col-9">
                     <input
                       className="form-control"
-                      name="civilId"
-                      value={form.civilId}
+                      name="purity"
+                      value={form.purity}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Address</label></div>
+                  <div className="col-3">
+                    <label className="form-label">Weight</label>
+                  </div>
                   <div className="col-9">
                     <input
                       className="form-control"
-                      name="address"
-                      value={form.address}
+                      name="weight"
+                      value={form.weight}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Card Front</label></div>
+                  <div className="col-3">
+                    <label className="form-label">Price</label>
+                  </div>
                   <div className="col-9">
                     <input
-                      type="file"
                       className="form-control"
-                      name="cardFront"
-                      // onChange={handleFileChange}
+                      name="price"
+                      value={form.price}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Card Back</label></div>
+                  <div className="col-3">
+                    <label className="form-label">Premium</label>
+                  </div>
                   <div className="col-9">
                     <input
-                      type="file"
                       className="form-control"
-                      name="cardBack"
-                      // onChange={handleFileChange}
+                      name="premium"
+                      value={form.premium}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
-
               </div>
 
               <div className="modal-footer">
@@ -239,6 +263,7 @@ const handleDelete = async (id) => {
               </div>
 
             </div>
+
           </div>
 
         </div>
@@ -249,4 +274,4 @@ const handleDelete = async (id) => {
   );
 }
 
-export default Customers;
+export default Items;

@@ -1,38 +1,66 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    console.log({
-      email,
-      password
-    });
+    try {
 
-    // later connect API
+      const request = await fetch("http://localhost:3000/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          phoneNumber,
+          password
+        })
+      });
+
+      const response = await request.json();
+
+      if (response.status) {
+
+        // store token
+        localStorage.setItem("token", response.data.accessToken);
+
+        // redirect
+        navigate("/customers");
+
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Login failed");
+    }
   };
 
-  return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
 
-      <div className="card p-4 shadow" style={{width:"400px"}}>
+  return (
+    <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-light">
+
+      <div className="card p-4 shadow" style={{ width: "400px" }}>
 
         <h3 className="text-center mb-4">Gold Shop Login</h3>
 
         <form onSubmit={handleLogin}>
 
           <div className="mb-3">
-            <label>Email</label>
+            <label>Phone Number</label>
             <input
-              type="email"
+              type="number"
               className="form-control"
               placeholder="Enter email"
-              value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              value={phoneNumber}
+              onChange={(e)=>setPhoneNumber(e.target.value)}
               required
             />
           </div>
