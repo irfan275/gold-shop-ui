@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import { getCustomers, createCustomer, updateCustomer,deleteCustomer } from "../services/customerService";
+import Pagination from "./Pagination";
 
 function Customers() {
 
   const [customers, setCustomers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [page, setPage] = useState(1);
+  const [size] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
 
   const [form, setForm] = useState({
     name: "",
@@ -14,15 +19,28 @@ function Customers() {
     address: ""
   });
 
-  useEffect(() => {
-    loadCustomers();
-  }, []);
+useEffect(() => {
+  loadCustomers(1, "");
+}, []);
 
-  const loadCustomers = async () => {
-    const response = await getCustomers();
-    setCustomers(response.data || []);
-  };
+const loadCustomers = async (pageNumber = 1, search = "") => {
 
+  const response = await getCustomers(pageNumber, size, search);
+
+  setCustomers(response.data.data || []);
+  setTotalPages(response.data.totalPages || 0);
+  setPage(pageNumber);
+
+};
+const handleSearch = () => {
+
+  if (searchText.length > 0 && searchText.length < 5) {
+    alert("Search text must be at least 5 characters");
+    return;
+  }
+
+  loadCustomers(1, searchText);
+};
   const openAddModal = () => {
     setForm({ name:"", phone:"", civilId:"", address:"" });
     setEditId(null);
@@ -77,15 +95,44 @@ const handleDelete = async (id) => {
     alert("Failed to delete customer.");
   }
 };
+const handlePageChange = (pageNumber) => {
+   setPage(pageNumber); 
+  loadCustomers(pageNumber, searchText);
+};
   return (
-    <div className="container mt-4">
+    <div className="container-fluid mt-4">
 
-      <div className="d-flex justify-content-between mb-3">
-        <h3>Customers</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
 
-        <button className="btn btn-primary" onClick={openAddModal}>
-          Add Customer
-        </button>
+        <h3 className="mb-0">Customers</h3>
+
+        <div className="d-flex align-items-center">
+
+          <input
+            type="text"
+            className="form-control me-2"
+            style={{ width: "250px" }}
+            placeholder="Search customer"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+
+          <button
+            className="btn btn-outline-success me-2"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+
+          <button
+            className="btn btn-primary"
+            onClick={openAddModal}
+          >
+            Add Customer
+          </button>
+
+        </div>
+
       </div>
 
       <table className="table table-bordered table-striped">
@@ -126,7 +173,7 @@ const handleDelete = async (id) => {
         </tbody>
 
       </table>
-
+      <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
       {/* Modal */}
 
       {showModal && (

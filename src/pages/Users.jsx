@@ -15,12 +15,12 @@ function Users() {
 
   const fetchUsers = async () => {
     const response = await getUsers();
-    setUsers(response.data || []);
+    setUsers(response.data.data || []);
   };
 
   const fetchShops = async () => {
     const response = await getShops();
-    setShops(response.data || []);
+    setShops(response.data.data || []);
   };
 
   const handleChange = (e) => {
@@ -29,7 +29,10 @@ function Users() {
   };
 
   const openAddModal = () => {
-    setForm({});
+    //setForm({});
+    setForm({
+      role: "EMPLOYEE"
+    });
     setEditId(null);
     setShowModal(true);
   };
@@ -82,6 +85,7 @@ function Users() {
             <th>Phone</th>
             <th>Email</th>
             <th>Civil ID</th>
+            <th>Role</th>
             <th>Shop</th>
             <th>Actions</th>
           </tr>
@@ -93,6 +97,7 @@ function Users() {
               <td>{u.phoneNumber}</td>
               <td>{u.email}</td>
               <td>{u.civilId}</td>
+              <td>{u.role}</td>
               <td>{u.shopId?.name || "-"}</td>
               <td>
                 <button className="btn btn-sm btn-warning me-2" onClick={() => openEditModal(u)}>Edit</button>
@@ -133,7 +138,28 @@ function Users() {
                   <div className="col-3"><label>Civil ID</label></div>
                   <div className="col-9"><input className="form-control" name="civilId" value={form.civilId || ""} onChange={handleChange} /></div>
                 </div>
+                <div className="row mb-2">
+                  <div className="col-3"><label>Password</label></div>
+                  <div className="col-9"><input className="form-control" name="password" value={form.password || ""} onChange={handleChange} /></div>
+                </div>
+                <div className="row mb-2">
+                <div className="col-3">
+                  <label>Role</label>
+                </div>
 
+                <div className="col-9">
+                  <select
+                    className="form-control"
+                    name="role"
+                    value={form.role || ""}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Role</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="EMPLOYEE">Employee</option>
+                  </select>
+                </div>
+              </div>
                 <div className="row mb-2">
                   <div className="col-3"><label>Shop</label></div>
                   <div className="col-9">

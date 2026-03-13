@@ -1,67 +1,30 @@
-const API_URL = "http://localhost:3000/api/customer";
+import api from "./api";
 
-const getToken = () => {
-  return localStorage.getItem("token");
-};
+const API_URL = "customer";
 
 // GET all customers
-export const getCustomers = async () => {
-  const response = await fetch(API_URL, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
+export const getCustomers = (page, size, search) => {
+  return api.get(API_URL, {
+    params: { page, size, search }
   });
-
-  return response.json();
 };
 
 // GET customer by id
-export const getCustomerById = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
-  });
-
-  return response.json();
+export const getCustomerById = (id) => {
+  return api.get(`${API_URL}/${id}`);
 };
 
 // CREATE customer
-export const createCustomer = async (customer) => {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`
-    },
-    body: JSON.stringify(customer)
-  });
-
-  return response.json();
+export const createCustomer = (customer) => {
+  return api.post(API_URL, customer);
 };
 
 // UPDATE customer
-export const updateCustomer = async (id, customer) => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`
-    },
-    body: JSON.stringify(customer)
-  });
-
-  return response.json();
+export const updateCustomer = (id, customer) => {
+  return api.put(`${API_URL}/${id}`, customer);
 };
 
 // DELETE customer
-export const deleteCustomer = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
-  });
-
-  return response.json();
+export const deleteCustomer = (id) => {
+  return api.delete(`${API_URL}/${id}`);
 };
