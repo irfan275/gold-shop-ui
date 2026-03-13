@@ -14,10 +14,15 @@ export const createItem = async (item) => {
 
 // UPDATE item
 export const updateItem = async (id, item) => {
-  return api.put(`${API_URL}/${id}`, customer);
+  return api.put(`${API_URL}/${id}`, item);
 };
 
 // DELETE item
 export const deleteItem = async (id) => {
 return api.delete(`${API_URL}/${id}`);
+};
+export const searchItems = (text) => {
+  return api.get(`${API_URL}/search`, {
+    params: { text }
+  });
 };

@@ -7,6 +7,7 @@ import Items from "./pages/Items";
 import Login from "./pages/Login";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import AddInvoice from "./pages/AddInvoice";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="items" element={<ProtectedRoute><Items /></ProtectedRoute>} />
           <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path="users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+          <Route path="add-invoice" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

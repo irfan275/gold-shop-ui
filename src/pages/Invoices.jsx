@@ -1,37 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getInvoices } from "../services/invoiceService";
 
 function Invoices() {
-
+  const navigate=useNavigate();
   const [invoices, setInvoices] = useState([
     {
-      id: 1,
-      invoiceNumber: "INV-001",
-      customer: "Ahmed",
-      total: 1200,
-      date: "2026-03-10"
-    },
-    {
-      id: 2,
-      invoiceNumber: "INV-002",
-      customer: "Ali",
-      total: 850,
-      date: "2026-03-09"
+      id: "",
+      invoiceNumber: "",
+      customerId: {},
+      items:[],
+      total: "",
+      date: ""
     }
   ]);
+  useEffect(() => {
+    loadInvoices();
+  }, []);
 
+  const loadInvoices = async () => {
+    const response = await getInvoices();
+    setInvoices(response.data || []);
+  };
   const handleDelete = (id) => {
     if (window.confirm("Delete this invoice?")) {
       setInvoices(invoices.filter(inv => inv.id !== id));
     }
   };
-
+const formatDate = (date) => {
+  return new Date(date).toLocaleString();
+};
   return (
     <div>
 
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>Invoices</h3>
 
-        <button className="btn btn-primary">
+        <button className="btn btn-primary" onClick={() => navigate("/add-invoice")}>
           Add Invoice
         </button>
       </div>
@@ -51,11 +56,11 @@ function Invoices() {
         <tbody>
 
           {invoices.map((inv) => (
-            <tr key={inv.id}>
+            <tr key={inv._id}>
               <td>{inv.invoiceNumber}</td>
-              <td>{inv.customer}</td>
-              <td>${inv.total}</td>
-              <td>{inv.date}</td>
+              <td>{inv.customerId.name}</td>
+              <td>{inv.total}</td>
+              <td>{formatDate(inv.updatedAt)}</td>
 
               <td>
 
