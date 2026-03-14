@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import AddInvoice from "./pages/AddInvoice";
+import ViewInvoice from "./pages/ViewInvoice";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path="users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
           <Route path="add-invoice" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
+          <Route path="/invoice/view/:id" element={<ProtectedRoute><ViewInvoice /></ProtectedRoute>} />
+          <Route path="/invoice/edit/:id" element={<ProtectedRoute><AddInvoice /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

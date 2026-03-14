@@ -81,6 +81,7 @@ const handleSearch = () => {
     }
   };
 const handleDelete = async (id) => {
+  if (window.confirm("Are you sure to delete this customer?")) {
   try {
     // Call API to delete
     await deleteCustomer(id); // replace with your API function
@@ -94,6 +95,7 @@ const handleDelete = async (id) => {
     console.error("Delete failed:", error);
     alert("Failed to delete customer.");
   }
+}
 };
 const handlePageChange = (pageNumber) => {
    setPage(pageNumber); 

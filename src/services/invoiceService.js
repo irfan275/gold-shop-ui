@@ -28,3 +28,7 @@ export const updateInvoice = (id, customer) => {
 export const deleteInvoice = (id) => {
   return api.delete(`${API_URL}/${id}`);
 };
+
+export const getInvoiceNumber = (id) => {
+  return api.get(`shop/sequence/${id}`);
+};

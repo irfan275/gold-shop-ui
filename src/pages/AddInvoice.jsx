@@ -2,12 +2,23 @@ import { useState, useEffect } from "react";
 import { getCustomers } from "../services/customerService";
 import { getItems, searchItems } from "../services/itemService";
 import { createInvoice } from "../services/invoiceService";
+import { getShops } from "../services/userService";
+import { useParams } from "react-router-dom";
+import { updateInvoice } from "../services/invoiceService";
+import { getInvoiceById } from "../services/invoiceService";
+import { getInvoiceNumber } from "../services/invoiceService";
 
 function AddInvoice() {
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
+
   // CUSTOMER STATE
   const [customerSearch, setCustomerSearch] = useState("");
   const [customerResults, setCustomerResults] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedShop, setSelectedShop] = useState("");
+  const [notes, setNotes] = useState("");
+  
 
   // ITEM STATE
 const [allItems, setAllItems] = useState([]);
@@ -17,46 +28,66 @@ const [selectedItem, setSelectedItem] = useState(null);
 const [showDropdown, setShowDropdown] = useState(false);
 
   const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [weight, setWeight] = useState("");
   const [premium, setPremium] = useState("");
+  const [totalDiscount, setTotalDiscount] = useState(0);
+  const [shops, setShops] = useState([]);
 
   // INVOICE ITEMS
   const [invoiceItems, setInvoiceItems] = useState([]);
   const [discount, setDiscount] = useState(0);
 
   // ------------------ CUSTOMER SEARCH ------------------
-useEffect(() => {
+  useEffect(() => {
 
-  if (customerSearch.length < 5 || selectedCustomer) {
-    setCustomerResults([]);
-    return;
-  }
+    if (customerSearch.length < 5 || selectedCustomer) {
+      setCustomerResults([]);
+      return;
+    }
 
-  const timer = setTimeout(async () => {
-    const res = await getCustomers(1, 10, customerSearch);
-    setCustomerResults(res.data.data || []);
-  }, 400);
+    const timer = setTimeout(async () => {
+      const res = await getCustomers(1, 10, customerSearch);
+      setCustomerResults(res.data.data || []);
+    }, 400);
 
-  return () => clearTimeout(timer);
+    return () => clearTimeout(timer);
 
-}, [customerSearch, selectedCustomer]);
+  }, [customerSearch, selectedCustomer]);
+  useEffect(() => {
+    fetchShops();
+  }, []);
+  const fetchShops = async () => {
+    const response = await getShops();
+    setShops(response.data.data || []);
+  };
+  // ------------------ Edit Invoice ------------------
+  useEffect(() => {
 
-  // ------------------ ITEM SEARCH ------------------
-// useEffect(() => {
+    if (isEditMode) {
+      loadInvoice();
+    }
 
-//   if (itemSearch.length < 5 || selectedItem) {
-//     setItemResults([]);
-//     return;
-//   }
+  }, [id]);
 
-//   const timer = setTimeout(async () => {
-//     const res = await searchItems(itemSearch);
-//     setItemResults(res.data.data || []);
-//   }, 400);
+  const loadInvoice = async () => {
 
-//   return () => clearTimeout(timer);
+    const res = await getInvoiceById(id);
 
-// }, [itemSearch, selectedItem]);
+    const inv = res.data;
+
+    setSelectedCustomer(inv.customerId);
+    setCustomerSearch(inv.customerId?.name);
+
+    setSelectedShop(inv.shop?._id);
+
+    setInvoiceItems(inv.items);
+
+    setTotalDiscount(inv.discount);
+    setNotes(inv.notes)
+
+  };
+
 useEffect(() => {
   const loadItems = async () => {
     const res = await getItems();
@@ -84,6 +115,10 @@ const handleItemSearch = (value) => {
 const handleSelectItem = (item) => {
   setSelectedItem(item);
   setItemSearch(item.name);
+  setPrice(item.price);
+  setPremium(item.premium);
+  setWeight(item.weight);
+  setDiscount(0);
   setShowDropdown(false);
 };
   // ------------------ ADD ITEM ------------------
@@ -99,14 +134,18 @@ const handleSelectItem = (item) => {
       price: Number(price),
       quantity: Number(quantity),
       premium: Number(premium || 0),
-      total: Number(price) * quantity+ Number(premium || 0),
+      discount: Number(discount || 0),
+      weight: Number(weight || 0),
+      total: Number(price) * quantity+ Number(premium || 0)-discount,
     };
     setInvoiceItems([...invoiceItems, newItem]);
     setSelectedItem(null);
     setItemSearch("");
     setPrice("");
-    setQuantity("");
+    setQuantity(1);
     setPremium("");
+    setDiscount(0);
+    setWeight("");
   };
 
   // ------------------ DELETE ITEM ------------------
@@ -129,7 +168,7 @@ const handleSelectItem = (item) => {
 
   // ------------------ TOTALS ------------------
   const subTotal = invoiceItems.reduce((sum, i) => sum + i.total, 0);
-  const finalTotal = subTotal - Number(discount || 0);
+  const finalTotal = subTotal - Number(totalDiscount || 0);
 
   // ------------------ SAVE INVOICE ------------------
   const handleSaveInvoice = async () => {
@@ -143,62 +182,154 @@ const handleSelectItem = (item) => {
         price: i.price,
         quantity: i.quantity,
         premium: i.premium,
+        discount:i.discount,
         total: i.total,
       })),
       total: finalTotal,
-      discount: discount,
+      subTotal: subTotal,
+      discount: totalDiscount,
+      shop : selectedShop,
+      notes:notes
     };
 
-    await createInvoice(payload);
-    alert("Invoice saved");
+    if (isEditMode) {
+
+      await updateInvoice(id, payload);
+      alert("Invoice updated");
+
+    } else {
+
+      await createInvoice(payload);
+      alert("Invoice created");
+
+    }
 
     setSelectedCustomer(null);
     setCustomerSearch("");
     setInvoiceItems([]);
-    setDiscount(0);
+    setTotalDiscount(0);
   };
+const [invoiceNumber, setInvoiceNumber] = useState("");
 
+const handleShopChange = async (shopId) => {
+  setSelectedShop(shopId);
+
+  if (!shopId) {
+    setInvoiceNumber("");
+    return;
+  }
+
+  try {
+    const res = await getInvoiceNumber(shopId); // API call
+    setInvoiceNumber(res.data.invoiceNumber);
+  } catch (error) {
+    console.error("Failed to fetch invoice number", error);
+  }
+};
   const handlePrint = () => window.print();
 
   return (
     <div className="container mt-4">
-      <h3>Create Invoice</h3>
+      <h3>{isEditMode ? "Edit Invoice" : "Create Invoice"}</h3>
 
       {/* ------------- CUSTOMER SECTION ------------- */}
       <div className="row mb-4">
-        <div className="col-md-12 position-relative">
-          <label className="form-label">Customer</label>
-          <input
-            className="form-control"
-            placeholder="Search Customer (min 5 chars)"
-            value={customerSearch}
-            onChange={(e) => setCustomerSearch(e.target.value)}
-          />
-          {customerResults.length > 0 && (
-            <ul className="list-group position-absolute w-100 shadow" style={{ zIndex: 1000, maxHeight: "200px", overflowY: "auto" }}>
-              {customerResults.map((c) => (
-                <li key={c._id} className="list-group-item list-group-item-action"
-                  onClick={() => {
-                    setSelectedCustomer(c);
-                    setCustomerSearch(c.name);
-                    setCustomerResults([]);
-                  }}>
-                  {c.name} 
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        {selectedCustomer && (
-          <div className="col-md-12 mt-2">
-            <strong>Phone:</strong> {selectedCustomer.phone} | <strong>Address:</strong> {selectedCustomer.address}
-          </div>
-        )}
-      </div>
+
+  {/* CUSTOMER */}
+
+  <div className="col-md-6 position-relative">
+
+    <label className="form-label">Customer</label>
+
+    <input
+      className="form-control"
+      placeholder="Search Customer (min 5 chars)"
+      value={customerSearch}
+      onChange={(e) => setCustomerSearch(e.target.value)}
+    />
+
+    {customerResults.length > 0 && (
+      <ul
+        className="list-group position-absolute w-100 shadow"
+        style={{ zIndex: 1000, maxHeight: "200px", overflowY: "auto" }}
+      >
+
+        {customerResults.map((c) => (
+
+          <li
+            key={c._id}
+            className="list-group-item list-group-item-action"
+            onClick={() => {
+              setSelectedCustomer(c);
+              setCustomerSearch(c.name);
+              setCustomerResults([]);
+            }}
+          >
+            {c.name}
+          </li>
+
+        ))}
+
+      </ul>
+    )}
+
+  </div>
+
+
+  {/* SHOP */}
+
+  <div className="col-md-6">
+
+    <label className="form-label">Shop</label>
+
+    <select
+      className="form-control"
+      name="shopId"
+      value={selectedShop}
+      onChange={(e) => handleShopChange(e.target.value)}
+    >
+
+      <option value="">Select Shop</option>
+
+      {shops.map((shop) => (
+        <option key={shop._id} value={shop._id}>
+          {shop.name}
+        </option>
+      ))}
+
+    </select>
+
+  </div>
+
+</div>
+
+{invoiceNumber && (
+  <div className="row mb-3">
+    <div className="col-md-12">
+      <strong>Invoice Number: </strong> {invoiceNumber}
+    </div>
+  </div>
+)}
+{/* CUSTOMER DETAILS */}
+
+{selectedCustomer && (
+
+  <div className="row mb-3">
+
+    <div className="col-md-12">
+
+      <strong>Phone:</strong> {selectedCustomer.phone} &nbsp; | &nbsp;
+      <strong>Address:</strong> {selectedCustomer.address}
+
+    </div>
+
+  </div>
+
+)}
 
       {/* ------------- ITEM SELECTION SECTION ------------- */}
       <div className="row mb-3">
-        <div className="col-md-6 position-relative">
+        <div className="col-md-4 position-relative">
           <label className="form-label">Item</label>
           <input
             className="form-control"
@@ -230,7 +361,7 @@ const handleSelectItem = (item) => {
         </div>
         <div className="col-md-2">
           <label className="form-label">Price</label>
-          <input className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <input className="form-control" value={price || ''} onChange={(e) => setPrice(e.target.value)} />
         </div>
         <div className="col-md-2">
           <label className="form-label">Quantity</label>
@@ -239,6 +370,10 @@ const handleSelectItem = (item) => {
         <div className="col-md-2">
           <label className="form-label">Premium</label>
           <input className="form-control" value={premium} onChange={(e) => setPremium(e.target.value)} />
+        </div>
+        <div className="col-md-2">
+          <label className="form-label">Weight</label>
+          <input className="form-control" value={weight} onChange={(e) => setWeight(e.target.value)} />
         </div>
         <div className="col-md-12 mt-2">
           <button className="btn btn-success" onClick={handleAddItem}>Add Item</button>
@@ -253,6 +388,7 @@ const handleSelectItem = (item) => {
             <th>Price</th>
             <th>Quantity</th>
             <th>Premium</th>
+            <th>Weight</th>
             <th>Total</th>
             <th>Action</th>
           </tr>
@@ -260,10 +396,11 @@ const handleSelectItem = (item) => {
         <tbody>
           {invoiceItems.map((i) => (
             <tr key={i.id}>
-              <td>{i.name}</td>
+              <td>{i.name?i.name:i.itemId.name}</td>
               <td><input type="number" className="form-control" value={i.price} onChange={(e) => handleEditItem(i.id, "price", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.quantity} onChange={(e) => handleEditItem(i.id, "quantity", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.premium} onChange={(e) => handleEditItem(i.id, "premium", e.target.value)} /></td>
+              <td><input type="number" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
               <td>{i.total}</td>
               <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i.id)}>Delete</button></td>
             </tr>
@@ -272,22 +409,65 @@ const handleSelectItem = (item) => {
       </table>
 
       {/* ------------- TOTALS SECTION ------------- */}
-      <div className="row mb-4">
-        <div className="col-md-3 offset-md-9">
-          <label className="form-label">Discount</label>
-          <input className="form-control" value={discount} onChange={(e) => setDiscount(e.target.value)} />
-        </div>
-      </div>
-      <div className="text-end mb-4">
-        <h5>Subtotal: {subTotal}</h5>
-        <h5>Discount: {discount}</h5>
-        <h4>Grand Total: {finalTotal}</h4>
-      </div>
+      <hr className="my-4" />
+        <div className="row justify-content-end mb-4">
 
+          <div className="col-md-4">
+
+            <div className="d-flex justify-content-between mb-2">
+              <strong>Subtotal:</strong>
+              <span>{subTotal}</span>
+            </div>
+
+            <div className="d-flex justify-content-between mb-2">
+              <strong className="me-2">Discount:</strong>
+
+              <input
+                type="number"
+                className="form-control"
+                style={{ maxWidth: "150px" }}
+                value={totalDiscount}
+                onChange={(e) => setTotalDiscount(e.target.value)}
+              />
+
+            </div>
+
+            <div className="d-flex justify-content-between">
+              <strong>Grand Total:</strong>
+              <span>{finalTotal}</span>
+            </div>
+
+          </div>
+
+        </div>
+      <div className="row mb-3">
+        <div className="col-md-12 gap-2">
+
+                  <label className="form-label">Note :</label>
+
+                  <textarea
+                    className="form-control"
+                    placeholder="Notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+            </div>
+      </div>
+      
       {/* ------------- ACTION BUTTONS ------------- */}
-      <div className="text-end mb-5">
-        <button className="btn btn-primary me-2" onClick={handleSaveInvoice}>Save Invoice</button>
-        <button className="btn btn-secondary" onClick={handlePrint}>Print Invoice</button>
+      <div className="d-flex justify-content-end mb-4 gap-2">
+        <button
+          className="btn btn-primary"
+          onClick={handleSaveInvoice}
+        >
+          {isEditMode ? "Update Invoice" : "Save Invoice"}
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={handlePrint}
+        >
+          Print Invoice
+        </button>
       </div>
     </div>
   );

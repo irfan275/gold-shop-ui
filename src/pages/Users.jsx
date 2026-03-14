@@ -74,8 +74,13 @@ function Users() {
 
   return (
     <div className="container mt-3">
-      <h3>Users</h3>
-      <button className="btn btn-primary mb-2" onClick={openAddModal}>Add User</button>
+      {/* <h3>Users</h3>
+      <button className="btn btn-primary mb-2" onClick={openAddModal}>Add User</button> */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3>Users</h3>
+
+        <button className="btn btn-primary mb-2" onClick={openAddModal}>Add User</button>
+      </div>
 
       {/* Users Table */}
       <table className="table table-bordered">

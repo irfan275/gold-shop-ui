@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getInvoices } from "../services/invoiceService";
+import { deleteInvoice, getInvoices } from "../services/invoiceService";
 
 function Invoices() {
   const navigate=useNavigate();
@@ -22,9 +22,21 @@ function Invoices() {
     const response = await getInvoices();
     setInvoices(response.data || []);
   };
-  const handleDelete = (id) => {
-    if (window.confirm("Delete this invoice?")) {
-      setInvoices(invoices.filter(inv => inv.id !== id));
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure to delete this invoice?")) {
+      try {
+        // Call API to delete
+        await deleteInvoice(id); // replace with your API function
+    
+        // Update local state to remove deleted record
+        setInvoices((prev) => prev.filter((inv) => inv._id !== id));
+    
+        // Show success alert
+        alert("Invoice deleted successfully!");
+      } catch (error) {
+        console.error("Delete failed:", error);
+        alert("Failed to delete Invoice.");
+      }
     }
   };
 const formatDate = (date) => {
@@ -49,6 +61,7 @@ const formatDate = (date) => {
             <th>Customer</th>
             <th>Total</th>
             <th>Date</th>
+            <th>Created By</th>
             <th width="220">Actions</th>
           </tr>
         </thead>
@@ -58,23 +71,24 @@ const formatDate = (date) => {
           {invoices.map((inv) => (
             <tr key={inv._id}>
               <td>{inv.invoiceNumber}</td>
-              <td>{inv.customerId.name}</td>
+              <td>{inv.customerId?.name}</td>
               <td>{inv.total}</td>
               <td>{formatDate(inv.updatedAt)}</td>
+              <td>{inv.createdBy?.name}</td>
 
               <td>
 
-                <button className="btn btn-sm btn-info">
+                <button className="btn btn-sm btn-info" onClick={() => navigate(`/invoice/view/${inv._id}`)}>
                   View
                 </button>
 
-                <button className="btn btn-sm btn-warning mx-2">
+                <button className="btn btn-sm btn-warning mx-2" onClick={() => navigate(`/invoice/edit/${inv._id}`)}>
                   Edit
                 </button>
 
                 <button
                   className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(inv.id)}
+                  onClick={() => handleDelete(inv._id)}
                 >
                   Delete
                 </button>
