@@ -21,3 +21,6 @@ export const deleteUser = async (id) => {
 export const getShops = async () => {
   return api.get('shop');
 };
+export const getShopById = async (id) => {
+  return api.get(`shop/${id}`);
+};

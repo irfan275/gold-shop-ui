@@ -86,7 +86,7 @@ function ViewInvoice() {
             <div className="row border-bottom ">
                 <div className="col-4 fw-bold bg-info">Date</div>
                 <div className="col-8">
-                {new Date(invoice.createdAt).toLocaleDateString()}
+                {invoice.invoiceDate}
                 </div>
             </div>
 

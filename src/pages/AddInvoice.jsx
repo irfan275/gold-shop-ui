@@ -85,8 +85,9 @@ const [showDropdown, setShowDropdown] = useState(false);
     setInvoiceItems(inv.items);
 
     setTotalDiscount(inv.discount);
-    setNotes(inv.notes)
-
+    setNotes(inv.notes);
+    setInvoiceNumber(inv.invoiceNumber);
+    setInvoiceDate(inv.invoiceDate);
   };
 
 useEffect(() => {
@@ -190,7 +191,8 @@ const handleSelectItem = (item) => {
       subTotal: subTotal,
       discount: totalDiscount,
       shop : selectedShop,
-      notes:notes
+      notes:notes,
+      invoiceDate:invoiceDate
     };
 
     if (isEditMode) {
@@ -209,9 +211,19 @@ const handleSelectItem = (item) => {
     setCustomerSearch("");
     setInvoiceItems([]);
     setTotalDiscount(0);
+    navigate("/invoices")
   };
-const [invoiceNumber, setInvoiceNumber] = useState("");
+  const getTodayDate = () => {
+  const date = new Date();
 
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("en-US", { month: "short" });
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
+const [invoiceNumber, setInvoiceNumber] = useState("");
+const [invoiceDate, setInvoiceDate] = useState(getTodayDate());
 const handleShopChange = async (shopId) => {
   setSelectedShop(shopId);
 
@@ -235,15 +247,21 @@ const handlePreview = () => {
       itemId: i.itemId,
       price: i.price,
       quantity: i.quantity,
+      weight : i.weight,
       premium: i.premium,
       discount:i.discount,
       total: i.total,
     })),
-    total: finalTotal,
+    total: subTotal,
     subTotal: subTotal,
+    finalTotal: finalTotal,
+    totalWeight:invoiceItems.reduce((sum, i) => sum + i.weight, 0),
+    totalQuantity:invoiceItems.reduce((sum, i) => sum + i.quantity, 0),
     discount: totalDiscount,
     shop : selectedShop,
-    notes:notes
+    notes:notes,
+    invoiceNumber:invoiceNumber,
+    invoiceDate:invoiceDate
   };
 
 
@@ -327,8 +345,20 @@ const handlePreview = () => {
 
 {invoiceNumber && (
   <div className="row mb-3">
-    <div className="col-md-12">
+    <div className="col-md-6">
       <strong>Invoice Number: </strong> {invoiceNumber}
+    </div>
+    <div className="col-md-6">
+      <label className="form-label">
+        <strong>Invoice Date:</strong>
+      </label>
+
+      <input
+        type="text"
+        className="form-control"
+        value={invoiceDate}
+        onChange={(e) => setInvoiceDate(e.target.value)}
+      />
     </div>
   </div>
 )}

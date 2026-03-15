@@ -16,7 +16,9 @@ function Customers() {
     name: "",
     phone: "",
     civilId: "",
-    address: ""
+    address: "",
+    type: "Resident",
+    cardExpiry: ""
   });
 
 useEffect(() => {
@@ -42,7 +44,7 @@ const handleSearch = () => {
   loadCustomers(1, searchText);
 };
   const openAddModal = () => {
-    setForm({ name:"", phone:"", civilId:"", address:"" });
+    setForm({ name:"", phone:"", civilId:"", address:"",type:"Resident",cardExpiry:"" });
     setEditId(null);
     setShowModal(true);
   };
@@ -61,7 +63,10 @@ const handleSearch = () => {
   };
 
   const handleSave = async () => {
-
+  if (!validateDate(form.cardExpiry)) {
+      alert("Date must be in format dd/mm/yyyy");
+      return;
+    }
     if(editId){
       await updateCustomer(editId, form);
     }else{
@@ -96,6 +101,15 @@ const handleDelete = async (id) => {
     alert("Failed to delete customer.");
   }
 }
+};
+const validateDate = (date) => {
+  const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+  return regex.test(date);
+};
+const handleBlur = () => {
+  if (form.cardExpiry && !validateDate(form.cardExpiry)) {
+    alert("Date must be in format dd/mm/yyyy");
+  }
 };
 const handlePageChange = (pageNumber) => {
    setPage(pageNumber); 
@@ -143,8 +157,10 @@ const handlePageChange = (pageNumber) => {
           <tr>
             <th>Name</th>
             <th>Phone</th>
-            <th>Civil Id</th>
+            <th>CR/ID No</th>
             <th>Address</th>
+            <th>Card Expiry</th>
+            <th>Customer Type</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -157,6 +173,8 @@ const handlePageChange = (pageNumber) => {
               <td>{c.phone}</td>
               <td>{c.civilId}</td>
               <td>{c.address}</td>
+              <td>{c.cardExpiry}</td>
+              <td>{c.type}</td>
               <td>
                 <button
                   className="btn btn-sm btn-warning"
@@ -220,7 +238,7 @@ const handlePageChange = (pageNumber) => {
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Civil ID</label></div>
+                  <div className="col-3"><label className="form-label">CR/ID No</label></div>
                   <div className="col-9">
                     <input
                       className="form-control"
@@ -228,6 +246,19 @@ const handlePageChange = (pageNumber) => {
                       value={form.civilId}
                       onChange={handleChange}
                     />
+                  </div>
+                </div>
+                <div className="row mb-2">
+                  <div className="col-3"><label className="form-label">Card Expiry</label></div>
+                  <div className="col-9">
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="cardExpiry"
+                        placeholder="dd/mm/yyyy"
+                        value={form.cardExpiry}
+                        onChange={handleChange}
+                      />
                   </div>
                 </div>
 
@@ -242,8 +273,26 @@ const handlePageChange = (pageNumber) => {
                     />
                   </div>
                 </div>
-
                 <div className="row mb-2">
+                  <div className="col-3">
+                    <label className="form-label">Customer Type</label>
+                  </div>
+
+                  <div className="col-9">
+                    <select
+                      className="form-control"
+                      name="type"
+                      value={form.type}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select Type</option>
+                      <option value="Resident">Resident</option>
+                      <option value="Visitor">Visitor</option>
+                      <option value="Corporate">Corporate</option>
+                    </select>
+                  </div>
+                </div>
+                {/* <div className="row mb-2">
                   <div className="col-3"><label className="form-label">Card Front</label></div>
                   <div className="col-9">
                     <input
@@ -265,7 +314,7 @@ const handlePageChange = (pageNumber) => {
                       // onChange={handleFileChange}
                     />
                   </div>
-                </div>
+                </div> */}
 
               </div>
 

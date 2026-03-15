@@ -21,8 +21,8 @@ function Items() {
   }, []);
 
   const loadItems = async () => {
-    const data = await getItems();
-    setItems(data.data || data);
+    const response = await getItems();
+    setItems(response.data.data || []);
   };
 
   const openAddModal = () => {
