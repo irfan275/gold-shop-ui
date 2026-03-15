@@ -1,0 +1,134 @@
+.invoice{
+    width:148mm;
+    margin:auto;
+    font-family:Arial;
+    font-size:12px;
+    }
+    
+    .header{
+    display:flex;
+    justify-content:space-between;
+    }
+    
+    .logo-block{
+    background:black;
+    color:white;
+    font-size:30px;
+    font-weight:bold;
+    padding:20px;
+    text-align:center;
+    }
+    
+    .company-block{
+    text-align:right;
+    }
+    
+    .subtitle{
+    text-align:center;
+    margin-top:5px;
+    }
+    
+    .title{
+    text-align:center;
+    font-weight:bold;
+    margin:10px 0;
+    }
+    
+    .info-section{
+    display:flex;
+    gap:10px;
+    }
+    
+    .customer-box,
+    .invoice-box{
+    width:50%;
+    border-collapse:collapse;
+    }
+    
+    .customer-box td,
+    .invoice-box td{
+    border:1px solid black;
+    padding:4px;
+    }
+    
+    .items{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    }
+    
+    .items th,
+    .items td{
+    border:1px solid black;
+    padding:4px;
+    text-align:center;
+    }
+    
+    .due{
+    font-weight:bold;
+    }
+    
+    .notes{
+    margin-top:8px;
+    border-collapse:collapse;
+    }
+    
+    .notes td{
+    border:1px solid black;
+    padding:4px;
+    }
+    
+    .remarks{
+    margin-top:10px;
+    font-size:11px;
+    }
+    
+    .signatures{
+    display:flex;
+    justify-content:space-between;
+    margin-top:40px;
+    font-weight:bold;
+    }
+    
+    @media print{
+    
+    body *{
+    visibility:hidden;
+    }
+    
+    .invoice,
+    .invoice *{
+    visibility:visible;
+    }
+    
+    .invoice{
+    position:absolute;
+    top:0;
+    left:0;
+    }
+    
+    @page{
+    size:A5;
+    margin:5mm;
+    }
+    
+    }
+    @media print {
+
+        body * {
+          visibility: hidden;
+        }
+      
+        .invoice,
+        .invoice * {
+          visibility: visible;
+        }
+      
+        .invoice {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 148mm;
+        }
+      
+      }

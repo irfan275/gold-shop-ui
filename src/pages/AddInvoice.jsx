@@ -3,7 +3,7 @@ import { getCustomers } from "../services/customerService";
 import { getItems, searchItems } from "../services/itemService";
 import { createInvoice } from "../services/invoiceService";
 import { getShops } from "../services/userService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { updateInvoice } from "../services/invoiceService";
 import { getInvoiceById } from "../services/invoiceService";
 import { getInvoiceNumber } from "../services/invoiceService";
@@ -11,6 +11,7 @@ import { getInvoiceNumber } from "../services/invoiceService";
 function AddInvoice() {
   const { id } = useParams();
   const isEditMode = Boolean(id);
+  const navigate = useNavigate();
 
   // CUSTOMER STATE
   const [customerSearch, setCustomerSearch] = useState("");
@@ -226,7 +227,28 @@ const handleShopChange = async (shopId) => {
     console.error("Failed to fetch invoice number", error);
   }
 };
-  const handlePrint = () => window.print();
+const handlePreview = () => {
+
+  const invoiceData = {
+    customer: selectedCustomer,
+    items: invoiceItems.map((i) => ({
+      itemId: i.itemId,
+      price: i.price,
+      quantity: i.quantity,
+      premium: i.premium,
+      discount:i.discount,
+      total: i.total,
+    })),
+    total: finalTotal,
+    subTotal: subTotal,
+    discount: totalDiscount,
+    shop : selectedShop,
+    notes:notes
+  };
+
+
+  navigate("/invoice/preview", { state: invoiceData });
+};
 
   return (
     <div className="container mt-4">
@@ -464,7 +486,7 @@ const handleShopChange = async (shopId) => {
         </button>
         <button
           className="btn btn-secondary"
-          onClick={handlePrint}
+          onClick={handlePreview}
         >
           Print Invoice
         </button>
