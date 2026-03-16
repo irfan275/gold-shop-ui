@@ -107,7 +107,9 @@ function ViewInvoice() {
 
         <thead className="table-dark">
           <tr>
+            <th>No</th>
             <th>Item</th>
+            <th>Quantity</th>
             <th>Price</th>
             <th>Weight</th>
             <th>Premium</th>
@@ -119,16 +121,25 @@ function ViewInvoice() {
 
           {invoice.items.map((item, index) => (
 
-            <tr key={index}>
-              <td>{item.itemId?.name}</td>
-              <td>{item.price}</td>
-              <td>{item.weight}</td>
-              <td>{item.premium}</td>
-              <td>{item.total}</td>
+            <tr key={index} className="text-start">
+              <td className="p-1 border border-black ">{index+1}</td>
+              <td className="p-1 border border-black">{item.itemId?.name}</td>
+              <td className="p-1 border border-black">{item.quantity}</td>
+              <td className="p-1 border border-black">{item.price}</td>
+              <td className="p-1 border border-black">{item.weight}</td>
+              <td className="p-1 border border-black">{item.premium}</td>
+              <td className="p-1 border border-black">{item.total}</td>
             </tr>
 
           ))}
-
+        <tr className="text-start">
+              <td colSpan="2" className="p-1 border border-black text-start">Sub Total</td>
+              <td className="p-1 border border-black">{invoice.items.reduce((sum, i) => sum + i.quantity, 0)}</td>
+              <td className="p-1 border border-black">{invoice.items.reduce((sum, i) => sum + i.price, 0)}</td>
+              <td className="p-1 border border-black">{invoice.items.reduce((sum, i) => sum + i.weight, 0)}</td>
+              <td className="p-1 border border-black">{invoice.items.reduce((sum, i) => sum + i.premium, 0)}</td>
+              <td className="p-1 border border-black">{invoice.subTotal}</td>
+            </tr>
         </tbody>
 
       </table>
@@ -145,6 +156,14 @@ function ViewInvoice() {
             <strong className="bg-info">Subtotal:</strong>
             <span>{invoice.subTotal}</span>
           </div>
+          <div className="d-flex justify-content-between mb-2">
+            <strong className="bg-info">Vat:</strong>
+            <span>{invoice.vat}</span>
+          </div>
+          <div className="d-flex justify-content-between mb-2">
+            <strong className="bg-info">Total:</strong>
+            <span>{invoice.total}</span>
+          </div>
 
           <div className="d-flex justify-content-between mb-2">
             <strong className="bg-info">Discount:</strong>
@@ -153,7 +172,7 @@ function ViewInvoice() {
 
           <div className="d-flex justify-content-between">
             <strong className="bg-info">Grand Total:</strong>
-            <span>{invoice.total}</span>
+            <span>{invoice.finalTotal}</span>
           </div>
 
         </div>

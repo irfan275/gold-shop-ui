@@ -33,6 +33,7 @@ const [showDropdown, setShowDropdown] = useState(false);
   const [weight, setWeight] = useState("");
   const [premium, setPremium] = useState("");
   const [totalDiscount, setTotalDiscount] = useState(0);
+  const [vat, setVat] = useState(0);
   const [shops, setShops] = useState([]);
 
   // INVOICE ITEMS
@@ -88,6 +89,7 @@ const [showDropdown, setShowDropdown] = useState(false);
     setNotes(inv.notes);
     setInvoiceNumber(inv.invoiceNumber);
     setInvoiceDate(inv.invoiceDate);
+    setVat(inv.vat);
   };
 
 useEffect(() => {
@@ -147,6 +149,7 @@ const handleSelectItem = (item) => {
     setQuantity(1);
     setPremium("");
     setDiscount(0);
+    setVat(0);
     setWeight("");
   };
 
@@ -170,7 +173,8 @@ const handleSelectItem = (item) => {
 
   // ------------------ TOTALS ------------------
   const subTotal = invoiceItems.reduce((sum, i) => sum + i.total, 0);
-  const finalTotal = subTotal - Number(totalDiscount || 0);
+  const total = subTotal - Number(vat || 0);
+  const finalTotal = total - Number(totalDiscount || 0);
 
   // ------------------ SAVE INVOICE ------------------
   const handleSaveInvoice = async () => {
@@ -182,13 +186,16 @@ const handleSelectItem = (item) => {
       items: invoiceItems.map((i) => ({
         itemId: i.itemId,
         price: i.price,
+        weight: i.weight,
         quantity: i.quantity,
         premium: i.premium,
         discount:i.discount,
         total: i.total,
       })),
-      total: finalTotal,
+      total: total,
       subTotal: subTotal,
+      vat: vat,
+      finalTotal: finalTotal,
       discount: totalDiscount,
       shop : selectedShop,
       notes:notes,
@@ -242,7 +249,7 @@ const handleShopChange = async (shopId) => {
 const handlePreview = () => {
 
   const invoiceData = {
-    customer: selectedCustomer,
+    customerId: selectedCustomer,
     items: invoiceItems.map((i) => ({
       itemId: i.itemId,
       price: i.price,
@@ -252,13 +259,14 @@ const handlePreview = () => {
       discount:i.discount,
       total: i.total,
     })),
-    total: subTotal,
+    total: total,
     subTotal: subTotal,
     finalTotal: finalTotal,
+    vat : vat,
     totalWeight:invoiceItems.reduce((sum, i) => sum + i.weight, 0),
     totalQuantity:invoiceItems.reduce((sum, i) => sum + i.quantity, 0),
     discount: totalDiscount,
-    shop : selectedShop,
+    shop : {_id:selectedShop},
     notes:notes,
     invoiceNumber:invoiceNumber,
     invoiceDate:invoiceDate
@@ -271,15 +279,22 @@ const handlePreview = () => {
   return (
     <div className="container mt-4">
       <h3>{isEditMode ? "Edit Invoice" : "Create Invoice"}</h3>
-
+      {invoiceNumber && (
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Invoice Number: </strong> {invoiceNumber}
+          </div>
+          
+        </div>
+      )}
       {/* ------------- CUSTOMER SECTION ------------- */}
       <div className="row mb-4">
 
   {/* CUSTOMER */}
 
-  <div className="col-md-6 position-relative">
+  <div className="col-md-4 position-relative">
 
-    <label className="form-label">Customer</label>
+    <label className="form-label"><strong>Customer</strong></label>
 
     <input
       className="form-control"
@@ -318,9 +333,9 @@ const handlePreview = () => {
 
   {/* SHOP */}
 
-  <div className="col-md-6">
+  <div className="col-md-4">
 
-    <label className="form-label">Shop</label>
+    <label className="form-label"><strong>Shop</strong></label>
 
     <select
       className="form-control"
@@ -340,28 +355,21 @@ const handlePreview = () => {
     </select>
 
   </div>
+  <div className="col-md-4">
+            <label className="form-label">
+              <strong>Invoice Date:</strong>
+            </label>
+
+            <input
+              type="text"
+              className="form-control"
+              value={invoiceDate}
+              onChange={(e) => setInvoiceDate(e.target.value)}
+            />
+          </div>
 
 </div>
 
-{invoiceNumber && (
-  <div className="row mb-3">
-    <div className="col-md-6">
-      <strong>Invoice Number: </strong> {invoiceNumber}
-    </div>
-    <div className="col-md-6">
-      <label className="form-label">
-        <strong>Invoice Date:</strong>
-      </label>
-
-      <input
-        type="text"
-        className="form-control"
-        value={invoiceDate}
-        onChange={(e) => setInvoiceDate(e.target.value)}
-      />
-    </div>
-  </div>
-)}
 {/* CUSTOMER DETAILS */}
 
 {selectedCustomer && (
@@ -471,7 +479,24 @@ const handlePreview = () => {
               <span>{subTotal}</span>
             </div>
 
-            <div className="d-flex justify-content-between mb-2">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <strong className="me-2">Vat:</strong>
+
+              <input
+                type="number"
+                className="form-control"
+                style={{ maxWidth: "150px" }}
+                value={vat}
+                onChange={(e) => setVat(e.target.value)}
+              />
+
+            </div>
+
+            <div className="d-flex justify-content-between">
+              <strong>Total:</strong>
+              <span>{total}</span>
+            </div>
+            <div className="d-flex justify-content-between align-items-center mb-2">
               <strong className="me-2">Discount:</strong>
 
               <input

@@ -22,6 +22,10 @@ function Invoices() {
     const response = await getInvoices();
     setInvoices(response.data || []);
   };
+
+const handlePrint = (invoice) => {
+  navigate("/invoice/preview", { state: invoice  });
+};
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure to delete this invoice?")) {
       try {
@@ -78,14 +82,19 @@ const formatDate = (date) => {
 
               <td>
 
-                <button className="btn btn-sm btn-info" onClick={() => navigate(`/invoice/view/${inv._id}`)}>
+                {/* <button className="btn btn-sm btn-info" onClick={() => navigate(`/invoice/view/${inv._id}`)}>
                   View
-                </button>
+                </button> */}
 
-                <button className="btn btn-sm btn-warning mx-2" onClick={() => navigate(`/invoice/edit/${inv._id}`)}>
+                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/invoice/edit/${inv._id}`)}>
                   Edit
                 </button>
-
+                <button
+                  className="btn btn-sm btn-primary mx-1"
+                  onClick={() => handlePrint(inv)}
+                >
+                  Print
+                </button>
                 <button
                   className="btn btn-sm btn-danger"
                   onClick={() => handleDelete(inv._id)}

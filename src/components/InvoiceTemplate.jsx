@@ -2,24 +2,34 @@ import { useEffect, useState } from "react";
 import "../css/invoice.css";
 import { getCustomerById } from "../services/customerService";
 import { getShopById, getShops } from "../services/userService";
+import { getInvoiceById } from "../services/invoiceService";
 
 function InvoiceTemplate({ invoice }) {
   const [customer,setCustomer] = useState({});
+  //const [invoice,setInvoice] = useState(invoice1);
   const [shop,setShop] = useState({});
   const [name,setName] = useState("");
   useEffect(() => {
     const loadCustomer = async () => {
-      const res = await getCustomerById(invoice.customer._id);
+      const res = await getCustomerById(invoice.customerId._id);
       setCustomer(res.data.data || []);
     };
   
     loadCustomer();
   }, []);
+  // useEffect(() => {
+  //   const loadInvoice = async () => {
+  //     const res = await getInvoiceById(invoice._id);
+  //     setInvoice(res.data.data || []);
+  //   };
+  //   if(invoice._id)
+  //     loadInvoice();
+  // }, []);
     useEffect(() => {
       fetchShop();
     }, []);
     const fetchShop = async () => {
-      const response = await getShopById(invoice.shop);
+      const response = await getShopById(invoice.shop._id);
       setShop(response.data.data || []);
     };
   useEffect(() => {
@@ -157,11 +167,11 @@ function InvoiceTemplate({ invoice }) {
     {/* Totals */}
     <tr>
       <td colSpan="2" className="p-1 border border-black text-start">Sub Total</td>
-      <td className="p-1 border border-black">{invoice.totalQuantity}</td>
+      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.quantity, 0)}</td>
       <td className="p-1 border border-black"></td>
-      <td className="p-1 border border-black">{invoice.totalWeight}</td>
-      <td className="p-1 border border-black">{invoice.subTotal}</td>
-      <td className="p-1 border border-black">0</td>
+      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.weight, 0)}</td>
+      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.price, 0)}</td>
+      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.premium, 0)}</td>
       <td className="p-1 border border-black">{invoice.subTotal}</td>
     </tr>
 
