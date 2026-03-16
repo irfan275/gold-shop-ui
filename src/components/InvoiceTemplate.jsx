@@ -33,13 +33,14 @@ function InvoiceTemplate({ invoice }) {
       setShop(response.data.data || []);
     };
   useEffect(() => {
-    setName(localStorage.getItem('name'));
+    const user = JSON.parse(localStorage.getItem("user"));
+    setName(user.name);
   }, [name]);
   const minRows = 6; // minimum rows to keep table height fixed
   const items = invoice?.items || []; // dynamic items
   const emptyRows = minRows - items.length > 0 ? minRows - items.length : 0;
   return (
-    <div className="invoice" style={{ width: '148mm', padding: '8mm', fontSize: '10px', lineHeight: '1.2' }}>
+    <div className="invoice" style={{ width: '150mm', padding: '3mm', fontSize: '10px', lineHeight: '1.1' }}>
 
       {/* ===== HEADER ===== */}
       <div className="header flex justify-between w-full mb-1">
@@ -48,26 +49,26 @@ function InvoiceTemplate({ invoice }) {
         <div
             className="logo-block font-bold"
             style={{
-                fontSize: '16px',
-                lineHeight: '1.2',
+                fontSize: '42px',
+                lineHeight: '1',
                 border: '2px solid #000', // black box
                 color: '#fff',
-                textAlign: 'center',
+                textAlign: 'left',
                 fontWeight: 'bold',
-                padding: '6px 0',
+                padding: '0px 157x',
             }}
             >
             MUSCAT<br />BULLION
             </div>
 
-          <div className="subtitle mt-1" style={{ fontSize: '10px', lineHeight: '1.2' }}>
+          <div className="subtitle mt-1" style={{ fontSize: '12px', lineHeight: '1' }}>
             <div><strong>Sale of Gold & Silver Bullion</strong></div>
             <div><strong>بيع سبائك الذهب والفضة</strong></div>
           </div>
         </div>
 
         {/* Right Side: Company Block */}
-        <div className="company-block text-left" style={{ fontSize: '9px', lineHeight: '1.2' }}>
+        <div className="company-block text-left" style={{ fontSize: '11px', lineHeight: '1.2' }}>
           <div>MUSCAT BULLION L.L.C</div>
           <div>سبائك مسقط ش.م.م</div>
           <div>Shop No 1013,Way No.1423,Muttrah Gold Souq</div>
@@ -86,7 +87,7 @@ function InvoiceTemplate({ invoice }) {
       <div className="title" style={{ fontSize: '11px', fontWeight: 'bold', margin: '4px 0' }}>
         TAX INVOICE | فاتورة ضريبية
       </div>
-      <p style={{ fontSize: '10px', margin: '2px 0' }}>To.</p>
+      <p className="fw-bold" style={{ fontSize: '10px', margin: '2px 0' }}>To.</p>
 
       {/* ===== CUSTOMER + INVOICE ===== */}
       <div className="info-section flex justify-between w-full mb-1">
@@ -99,7 +100,7 @@ function InvoiceTemplate({ invoice }) {
             <tr><td className="p-1">Telephone No. | رقم الهاتف</td><td className="p-1">{customer.phone}</td></tr>
             <tr><td className="p-1">C/O | شخص مسؤول</td><td className="p-1">{customer.name}</td></tr>
             <tr><td className="p-1">CR/ID No. | الرقم المدني/ رقم السجل</td><td className="p-1">{customer.civilId}</td></tr>
-            <tr><td className="p-1">Customer Description | وصف العميل</td><td className="p-1">bank transfer</td></tr>
+            <tr><td className="p-1">Card Expiry | انتهاء صلاحية البطاقة</td><td className="p-1">{customer.cardExpiry}</td></tr>
           </tbody>
         </table>
 
@@ -202,7 +203,7 @@ function InvoiceTemplate({ invoice }) {
 </table>
 
       {/* ===== NOTES ===== */}
-      <table className="notes border border-black border-collapse w-full mb-1" style={{ fontSize: '9px',width: '100%' }}>
+      <table className="notes border border-black border-collapse w-full mb-1" style={{ fontSize: '10px',width: '100%' }}>
         <tbody>
           <tr>
             <td rowSpan={2} className="font-semibold align-top p-1 border border-black">Notes</td>
@@ -215,42 +216,86 @@ function InvoiceTemplate({ invoice }) {
       </table>
 
       {/* ===== REMARKS ===== */}
-      <div className="remarks mb-1" style={{ fontSize: '9px' }}>
-        Remarks: 2000.000 24K Grams &nbsp;&nbsp; SALE @ 1.350 OMR Per Gram
-      </div>
+      <div
+        className="remarks mb-1"
+        style={{
+          fontSize: "10px",
+          display: "flex"
+        }}
+      >
+        <b style={{ width: "120px" }}>Remarks | ملاحظات</b>
 
+        <span>
+          2000.000 24K Grams &nbsp;&nbsp; SALE @ 1.350 OMR Per Gram
+        </span>
+      </div>
       {/* ===== TERMS ===== */}
-      <table className="w-full border border-black border-collapse mb-1" style={{ fontSize: '9px' }}>
-        <tbody>
-          <tr>
-            <td className="w-1/2 p-1 align-top">
-              I hereby confirm above information to cash declaration has been completed accurately to best of my knowledge and belief with Anti-Money Laundering and Combating the Financing of Terrorism policy of Central Bank Of Oman with specific regards being made to the know your customer / due diligence procedures contained therein.
-            </td>
-            <td className="w-1/2 p-1 align-top" dir="rtl">
-              أؤكد من خلال خبرتي أن المعلومات المذكورة أعلاه للإقرار النقدي قد تم استكمالها بدقة وفقًا لمعرفتي واعتقادي مع سياسة مكافحة غسل الأموال ومكافحة تمويل الإرهاب التي يتبعها البنك المركزي العماني مع اعتبارات محددة بشأن معرفة عميلك / إجراءات العناية الواجبة الواردة فيها.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<table
+  className="w-full border border-black border-collapse mb-1"
+  style={{ fontSize: "9px", tableLayout: "fixed" }}
+>
+  <tbody>
+    <tr>
+      <td
+        style={{ width: "52%" }}
+        className="p-1 align-top"
+      >
+        "If any items in this invoice will be refunded with only Gold/Silver Value at Spot Rate"
+        <br />
+        I hereby confirm above information to cash declaration has been completed accurately
+        to best of my knowledge and belief with Anti- Money Laundering and Combating the
+        Financing of Terrorism policy of Central Bank of Oman with specific regards being
+        made to the Know Your Customer / Due Diligence procedures contained therein.
+      </td>
+
+      <td
+        style={{ width: "50%",fontSize:'10.5px' }}
+        className="p-1 align-top"
+        dir="rtl"
+      >
+        إذا كان هناك أي عناصر في هذه الفاتورة سيتم ردها بقيمة الذهب والفضة" "فقط بالسعر الفوري
+        <br />
+        أؤكد من خلال خبرتي أن المعلومات المذكورة أعلاه للإقرار النقدي قد تم استكمالها بدقة
+        وفقًا لمعرفتي واعتقادي مع سياسة مكافحة غسل الأموال ومكافحة تمويل الإرهاب التي يتبعها
+        البنك المركزي العماني مع اعتبارات محددة بشأن معرفة عميلك / إجراءات العناية الواجبة
+        الواردة فيها.
+      </td>
+    </tr>
+  </tbody>
+</table>
 
       {/* ===== SIGNATURES ===== */}
       <div>
-        <span>Confirmed for & Behalf of |  تم التأكيد نيابة عن     </span><br />
-        <strong>{customer.name}</strong>
-      </div>
+        <span>Confirmed for & Behalf of |  تم التأكيد نيابة عن     </span>
+        </div>
+        <div
+          className="mt-1"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "10px"
+          }}
+        >
+          <strong>{customer.name}</strong>
+          <strong>For MUSCAT BULLION</strong>
+        </div>
+        
       
-      <div className="signatures flex justify-between mt-2">
-        <div className="text-center w-1/3">
+      <div className="signatures flex justify-between mt-4">
+        <div className="text-center w-1/3" >
           <hr className="border-black" />
-          <span className="block mt-1 text-sm">Customer Name & Signature</span>
+          <span className="block mt-1 text-sm" >Customer Name & Signature</span><br/>
+          <span style={{lineHeight: '3'}}>اسم العميل وتوقيعه</span>
         </div>
         <div className="text-center w-1/3">
           <hr className="border-black" />
-          <span className="block mt-1 text-sm">Checked By</span>
+          <span className="block mt-1 text-sm">Checked By</span><br/>
+          <span style={{lineHeight: '3'}}>تم الفحص بواسطة</span>
         </div>
         <div className="text-center w-1/3">
           <hr className="border-black" />
-          <span className="block mt-1 text-sm">Authorized Signatory</span>
+          <span className="block mt-1 text-sm">Authorized Signatory</span><br/>
+          <span style={{lineHeight: '3'}}>المفوض بالتوقيع</span>
         </div>
       </div>
 

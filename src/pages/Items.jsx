@@ -13,7 +13,8 @@ function Items() {
     purity: "",
     weight: "",
     price: "",
-    premium: ""
+    premium: "",
+    type:"Gold"
   });
 
   useEffect(() => {
@@ -32,7 +33,8 @@ function Items() {
       purity: "",
       weight: "",
       price: "",
-      premium: ""
+      premium: "",
+      type:"Gold"
     });
 
     setEditId(null);
@@ -186,7 +188,24 @@ function Items() {
                     />
                   </div>
                 </div>
+                <div className="row mb-2">
+                  <div className="col-3">
+                    <label className="form-label">Item Type</label>
+                  </div>
 
+                  <div className="col-9">
+                    <select
+                      className="form-control"
+                      name="type"
+                      value={form.type}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select Type</option>
+                      <option value="Resident">Gold</option>
+                      <option value="Visitor">Silver</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="row mb-2">
                   <div className="col-3">
                     <label className="form-label">Purity</label>

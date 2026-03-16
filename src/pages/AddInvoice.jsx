@@ -71,7 +71,6 @@ const [showDropdown, setShowDropdown] = useState(false);
     }
 
   }, [id]);
-
   const loadInvoice = async () => {
 
     const res = await getInvoiceById(id);
@@ -91,7 +90,13 @@ const [showDropdown, setShowDropdown] = useState(false);
     setInvoiceDate(inv.invoiceDate);
     setVat(inv.vat);
   };
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
 
+  if (user?.role === "EMPLOYEE") {
+    setSelectedShop(user.shopId);
+  }
+}, []);
 useEffect(() => {
   const loadItems = async () => {
     const res = await getItems();
@@ -342,6 +347,7 @@ const handlePreview = () => {
       name="shopId"
       value={selectedShop}
       onChange={(e) => handleShopChange(e.target.value)}
+      disabled={JSON.parse(localStorage.getItem("user"))?.role === "EMPLOYEE"}
     >
 
       <option value="">Select Shop</option>

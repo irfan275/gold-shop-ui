@@ -13,7 +13,8 @@ const [name,setName] = useState("")
     navigate("/login");
   };
   useEffect(() => {
-    setName(localStorage.getItem('name'));
+    const user = JSON.parse(localStorage.getItem("user"));
+    setName(user.name);
   }, [name]);
 
   return (

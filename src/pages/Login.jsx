@@ -29,8 +29,7 @@ function Login() {
 
         // store token
         localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("name", response.data.name);
-        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
 
         // redirect
         navigate("/customers");
