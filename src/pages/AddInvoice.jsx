@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getCustomers } from "../services/customerService";
+import { checkCardExpiry, getCustomers } from "../services/customerService";
 import { getItems, searchItems } from "../services/itemService";
 import { createInvoice } from "../services/invoiceService";
 import { getShops } from "../services/userService";
@@ -105,6 +105,24 @@ useEffect(() => {
 
   loadItems();
 }, []);
+const handleCustomerSelection = async (c) => {
+  try {
+    const res = await checkCardExpiry(c._id);
+
+    // success (200)
+    setSelectedCustomer(c);
+    setCustomerSearch(c.name);
+    setCustomerResults([]);
+
+  } catch (err) {
+    if (err.response) {
+      // backend returned 400
+      alert(err.response.data.message || "Invalid card expiry");
+    } else {
+      alert("Something went wrong");
+    }
+  }
+};
 const handleItemSearch = (value) => {
 
   setItemSearch(value);
@@ -319,11 +337,7 @@ const handlePreview = () => {
           <li
             key={c._id}
             className="list-group-item list-group-item-action"
-            onClick={() => {
-              setSelectedCustomer(c);
-              setCustomerSearch(c.name);
-              setCustomerResults([]);
-            }}
+            onClick={(e) => handleCustomerSelection(c)}
           >
             {c.name}
           </li>

@@ -13,7 +13,9 @@ export const getCustomers = (page, size, search) => {
 export const getCustomerById = (id) => {
   return api.get(`${API_URL}/${id}`);
 };
-
+export const checkCardExpiry = (id) => {
+  return api.get(`${API_URL}/checkCardExpiry/${id}`);
+};
 // CREATE customer
 export const createCustomer = (customer) => {
   return api.post(API_URL, customer);
