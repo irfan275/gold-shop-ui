@@ -4,7 +4,7 @@ import { getCustomerById } from "../services/customerService";
 import { getShopById, getShops } from "../services/userService";
 import { getInvoiceById } from "../services/invoiceService";
 
-function InvoiceTemplate({ invoice }) {
+function InvoiceTemplate({ invoice ,copyType}) {
   const [customer,setCustomer] = useState({});
   //const [invoice,setInvoice] = useState(invoice1);
   const [shop,setShop] = useState({});
@@ -39,6 +39,18 @@ function InvoiceTemplate({ invoice }) {
   const minRows = 6; // minimum rows to keep table height fixed
   const items = invoice?.items || []; // dynamic items
   const emptyRows = minRows - items.length > 0 ? minRows - items.length : 0;
+  const getNoteLines = (text) => {
+  if (!text) return ["", ""];
+
+  const lines = text.split("\n");
+
+  return [
+    lines[0] || "",
+    lines[1] || ""
+  ];
+};
+
+const [line1, line2] = getNoteLines(invoice.notes);
   return (
     <div className="invoice" style={{ width: '150mm', padding: '3mm', fontSize: '10px', lineHeight: '1.1' }}>
 
@@ -55,7 +67,7 @@ function InvoiceTemplate({ invoice }) {
                 color: '#fff',
                 textAlign: 'left',
                 fontWeight: 'bold',
-                padding: '0px 157x',
+                padding: '0px 15px',
             }}
             >
             MUSCAT<br />BULLION
@@ -75,8 +87,10 @@ function InvoiceTemplate({ invoice }) {
           <div>المحل رقم 1013، الطريق رقم 1423، سوق مطرح للذهب</div>
           {/* <div>{shop.address}</div>
           <div>{shop.address_ar}</div>  */}
-          <div>P.O Box: 3062, PC:112, Ruwi, Sultanate of Oman</div>
-          <div>ص.ب.: 3062، الرمز البريدي: 112، روي، سلطنة عمان</div>
+          {/* <div>P.O Box: 3062, PC:112, Ruwi, Sultanate of Oman</div>
+          <div>ص.ب.: 3062، الرمز البريدي: 112، روي، سلطنة عمان</div> */}
+          <div>P.O Box: 590, PC:117, Wadi Al Kabir</div>
+          <div>ص.ب.: 590، الرمز البريدي: 117، وادي الكبير</div>
           <div>www.muscatbullion.com</div>
           <div>VATIN: OM1100325835</div>
           <div><strong>Tel: +968 24837434</strong></div>
@@ -84,10 +98,51 @@ function InvoiceTemplate({ invoice }) {
       </div>
 
       {/* ===== TITLE ===== */}
-      <div className="title" style={{ fontSize: '11px', fontWeight: 'bold', margin: '4px 0' }}>
-        TAX INVOICE | فاتورة ضريبية
+      <div
+  style={{
+    position: "relative",
+    margin: "4px 0",
+    textAlign: "center"
+  }}
+>
+  {/* Center Title */}
+  <div
+    className="title"
+    style={{
+      fontSize: "11px",
+      fontWeight: "bold"
+    }}
+  >
+          TAX INVOICE | فاتورة ضريبية
+        </div>
+
+        {/* Right Side Copy */}
+        <strong
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            textDecoration: "underline",
+            color: "#666",
+            fontSize: "12px",
+            fontWeight: "bold"
+          }}
+        >
+          {copyType}
+        </strong>
       </div>
-      <p className="fw-bold" style={{ fontSize: '10px', margin: '2px 0' }}>To.</p>
+      
+      <div
+          className="mt-1"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "10px"
+          }}
+        >
+          <strong>To.</strong>
+          
+        </div>
 
       {/* ===== CUSTOMER + INVOICE ===== */}
       <div className="info-section flex justify-between w-full mb-1">
@@ -207,10 +262,10 @@ function InvoiceTemplate({ invoice }) {
         <tbody>
           <tr>
             <td rowSpan={2} className="font-semibold align-top p-1 border border-black">Notes</td>
-            <td className="p-1 border border-black">bank transfer 500/300 sajid mobile</td>
+            <td className="p-1 border border-black">{line1}</td>
           </tr>
           <tr>
-            <td className="p-1 border border-black">1900 visa</td>
+            <td className="p-1 border border-black">{line2}</td>
           </tr>
         </tbody>
       </table>

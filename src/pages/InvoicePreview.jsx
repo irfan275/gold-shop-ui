@@ -23,8 +23,18 @@ function InvoicePreview() {
       </div>
 
       {/* Invoice */}
-      <InvoiceTemplate invoice={invoice} />
+      <div className="print-area">
+        <div className="invoice-copy">
+            <InvoiceTemplate invoice={invoice} copyType='Customer Copy'/>
 
+        </div>
+        <div className="invoice-copy">
+            <InvoiceTemplate invoice={invoice} copyType='Merchant Copy'/>
+
+        </div>
+      </div>
+      
+      
     </div>
   );
 }

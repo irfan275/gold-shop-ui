@@ -547,6 +547,7 @@ const handlePreview = () => {
                     placeholder="Notes"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
+                    rows={2}
                   />
             </div>
       </div>
