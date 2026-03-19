@@ -45,6 +45,17 @@ function Sidebar() {
             Invoices
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/purchases"
+            className={({ isActive }) =>
+              "menu-link" + (isActive ? " active" : "")
+            }
+          >
+            <FaFileInvoice className="menu-icon" />
+            Purchases
+          </NavLink>
+        </li>
 
         <li>
           <NavLink

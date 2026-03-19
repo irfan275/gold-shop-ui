@@ -1,6 +1,6 @@
 import api from "./api";
 
-const API_URL = "invoice";
+const API_URL = "purchase";
 
 // GET all customers
 export const getInvoices = (page, size, search) => {
@@ -30,8 +30,5 @@ export const deleteInvoice = (id) => {
 };
 
 export const getInvoiceNumber = (id) => {
-  return api.get(`shop/sequence/${id}`);
-};
-export const getInvoiceNumberForPurchase = (id) => {
   return api.get(`shop/purchase/sequence/${id}`);
 };

@@ -62,19 +62,28 @@ const handleSearch = () => {
     });
   };
 
-  const handleSave = async () => {
-  if (!validateDate(form.cardExpiry)) {
-      alert("Date must be in format dd/mm/yyyy");
-      return;
-    }
-    if(editId){
-      await updateCustomer(editId, form);
-    }else{
-      await createCustomer(form);
-    }
+  const handleSave = async (e) => {
+    e.preventDefault();
 
-    setShowModal(false);
-    loadCustomers();
+  const formElement = e.currentTarget;
+
+  if (!formElement.checkValidity()) {
+    e.stopPropagation();
+  } else {
+    if (!validateDate(form.cardExpiry)) {
+        alert("Date must be in format dd/mm/yyyy");
+        return;
+      }
+      if(editId){
+        await updateCustomer(editId, form);
+      }else{
+        await createCustomer(form);
+      }
+
+      setShowModal(false);
+      loadCustomers();
+    }
+    formElement.classList.add("was-validated");
   };
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -210,7 +219,7 @@ const handlePageChange = (pageNumber) => {
                   onClick={()=>setShowModal(false)}
                 />
               </div>
-
+<form className="needs-validation" noValidate onSubmit={handleSave}>
               <div className="modal-body">
 
                 <div className="row mb-2">
@@ -221,6 +230,7 @@ const handlePageChange = (pageNumber) => {
                       name="name"
                       value={form.name}
                       onChange={handleChange}
+                      required
                     />
                   </div>
                 </div>
@@ -233,6 +243,7 @@ const handlePageChange = (pageNumber) => {
                       name="phone"
                       value={form.phone}
                       onChange={handleChange}
+                      required
                     />
                   </div>
                 </div>
@@ -245,6 +256,7 @@ const handlePageChange = (pageNumber) => {
                       name="civilId"
                       value={form.civilId}
                       onChange={handleChange}
+                      required
                     />
                   </div>
                 </div>
@@ -258,6 +270,7 @@ const handlePageChange = (pageNumber) => {
                         placeholder="dd/mm/yyyy"
                         value={form.cardExpiry}
                         onChange={handleChange}
+                        required
                       />
                   </div>
                 </div>
@@ -284,6 +297,7 @@ const handlePageChange = (pageNumber) => {
                       name="type"
                       value={form.type}
                       onChange={handleChange}
+                      required
                     >
                       <option value="">Select Type</option>
                       <option value="Resident">Resident</option>
@@ -328,14 +342,15 @@ const handlePageChange = (pageNumber) => {
                 </button>
 
                 <button
+                  type="submit"
                   className="btn btn-success"
-                  onClick={handleSave}
+                  //onClick={handleSave}
                 >
                   Save
                 </button>
 
               </div>
-
+</form>
             </div>
           </div>
 

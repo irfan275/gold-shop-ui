@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import "../css/invoice.css";
 import { getCustomerById } from "../services/customerService";
 import { getShopById, getShops } from "../services/userService";
-import { getInvoiceById } from "../services/invoiceService";
+import { getInvoiceById } from "../services/purchaseService";
 
-function InvoiceTemplate({ invoice ,copyType}) {
+function PurchaseInvoiceTemplate({ invoice ,copyType}) {
   const [customer,setCustomer] = useState({});
   //const [invoice,setInvoice] = useState(invoice1);
   const [shop,setShop] = useState({});
@@ -143,7 +143,7 @@ const silverRate = totals.silverWeight
       fontWeight: "bold"
     }}
   >
-          TAX INVOICE | فاتورة ضريبية
+          PURCHASE VOUCHER 
         </div>
 
         {/* Right Side Copy */}
@@ -252,7 +252,7 @@ const silverRate = totals.silverWeight
 
     {/* Totals */}
     <tr>
-      <td colSpan="2" className="p-1 border border-black text-start">Sub Total</td>
+      <td colSpan="2" className="p-1 border border-black text-start">Total</td>
       <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.quantity, 0)}</td>
       <td className="p-1 border border-black"></td>
       <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.weight, 0)}</td>
@@ -261,22 +261,22 @@ const silverRate = totals.silverWeight
       <td className="p-1 border border-black">{invoice.subTotal}</td>
     </tr>
 
-    <tr>
+    {/* <tr>
       <td colSpan="5" className="p-1 border border-black text-start">VAT (5%) On Workmanship | ضريبة القيمة المضافة (٥٪) على المصنعية</td>
       <td className="p-1 border border-black">5%</td>
       <td className="p-1 border border-black"></td>
       <td className="p-1 border border-black">0.000</td>
-    </tr>
+    </tr> */}
 
-    <tr style={{ backgroundColor: "#e5e5e5" }}>
+    {/* <tr style={{ backgroundColor: "#e5e5e5" }}>
       <td colSpan="7" className="p-1 border border-black text-start" >Totals</td>
       <td className="p-1 border border-black">{invoice.total}</td>
-    </tr>
+    </tr> */}
 
-    <tr>
+    {/* <tr>
       <td colSpan="7" className="p-1 border border-black text-start">Discount</td>
       <td className="p-1 border border-black">{invoice.discount}</td>
-    </tr>
+    </tr> */}
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
       <td colSpan="7" className="p-1 border border-black font-bold" >
@@ -402,4 +402,4 @@ const silverRate = totals.silverWeight
   );
 }
 
-export default InvoiceTemplate;
+export default PurchaseInvoiceTemplate;

@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { checkCardExpiry, getCustomers } from "../services/customerService";
 import { getItems, searchItems } from "../services/itemService";
-import { createInvoice } from "../services/invoiceService";
 import { getShops } from "../services/userService";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateInvoice } from "../services/invoiceService";
-import { getInvoiceById } from "../services/invoiceService";
-import { getInvoiceNumber } from "../services/invoiceService";
+import {createInvoice, updateInvoice,getInvoiceById, getInvoiceNumber } from "../services/purchaseService";
 
-function AddInvoice() {
+
+function AddPurchaseInvoice() {
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
@@ -33,7 +31,7 @@ const [showDropdown, setShowDropdown] = useState(false);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [weight, setWeight] = useState("");
-  const [premium, setPremium] = useState("");
+  const [premium, setPremium] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [vat, setVat] = useState(0);
   const [shops, setShops] = useState([]);
@@ -308,7 +306,7 @@ const handlePreview = () => {
   };
 
 
-  navigate("/invoice/preview", { state: {invoice :invoiceData,show:true }});
+  navigate("/purchase-invoice/preview", { state: {invoice :invoiceData,show:true }});
 };
 
   return (
@@ -459,10 +457,10 @@ const handlePreview = () => {
           <label className="form-label">Quantity</label>
           <input className="form-control" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         </div>
-        <div className="col-md-2">
+        {/* <div className="col-md-2">
           <label className="form-label">Premium</label>
           <input className="form-control" value={premium} onChange={(e) => setPremium(e.target.value)} />
-        </div>
+        </div> */}
         <div className="col-md-2">
           <label className="form-label">Weight</label>
           <input className="form-control" value={weight} onChange={(e) => setWeight(e.target.value)} />
@@ -507,11 +505,11 @@ const handlePreview = () => {
           <div className="col-md-4">
 
             <div className="d-flex justify-content-between mb-2">
-              <strong>Subtotal:</strong>
+              <strong>Total:</strong>
               <span>{subTotal}</span>
             </div>
 
-            <div className="d-flex justify-content-between align-items-center mb-2">
+            {/* <div className="d-flex justify-content-between align-items-center mb-2">
               <strong className="me-2">Vat:</strong>
 
               <input
@@ -522,13 +520,13 @@ const handlePreview = () => {
                 onChange={(e) => setVat(e.target.value)}
               />
 
-            </div>
+            </div> */}
 
-            <div className="d-flex justify-content-between">
+            {/* <div className="d-flex justify-content-between">
               <strong>Total:</strong>
               <span>{total}</span>
-            </div>
-            <div className="d-flex justify-content-between align-items-center mb-2">
+            </div> */}
+            {/* <div className="d-flex justify-content-between align-items-center mb-2">
               <strong className="me-2">Discount:</strong>
 
               <input
@@ -539,7 +537,7 @@ const handlePreview = () => {
                 onChange={(e) => setTotalDiscount(e.target.value)}
               />
 
-            </div>
+            </div> */}
 
             <div className="d-flex justify-content-between">
               <strong>Grand Total:</strong>
@@ -587,4 +585,4 @@ const handlePreview = () => {
   );
 }
 
-export default AddInvoice;
+export default AddPurchaseInvoice;

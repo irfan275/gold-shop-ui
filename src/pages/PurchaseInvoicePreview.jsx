@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import InvoiceTemplate from "../components/InvoiceTemplate";
+import PurchaseInvoiceTemplate from "../components/PurchaseInvoiceTemplate";
 
-function InvoicePreview() {
+function PurchaseInvoicePreview() {
 
   const location = useLocation();
    const { invoice, show } = location.state;
@@ -13,7 +13,7 @@ const navigate = useNavigate();
   };
   const handleBack = () => {
     //navigate(-1); // go back with same state
-    navigate(`/invoice/edit/${invoice.id}`);
+    navigate(`/purchase-invoice/edit/${invoice.id}`);
   };
   return (
     <div>
@@ -35,7 +35,7 @@ const navigate = useNavigate();
       {/* Invoice */}
       <div className="print-area">
         <div className="invoice-copy">
-            <InvoiceTemplate invoice={invoice} copyType='Customer Copy'/>
+            <PurchaseInvoiceTemplate invoice={invoice} copyType=''/>
 
         </div>
         {/* <div className="invoice-copy">
@@ -49,4 +49,4 @@ const navigate = useNavigate();
   );
 }
 
-export default InvoicePreview;
+export default PurchaseInvoicePreview;

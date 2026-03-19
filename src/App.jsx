@@ -10,6 +10,9 @@ import ProtectedRoute from "./ProtectedRoute";
 import AddInvoice from "./pages/AddInvoice";
 import ViewInvoice from "./pages/ViewInvoice";
 import InvoicePreview from "./pages/InvoicePreview";
+import AddPurchaseInvoice from "./pages/AddPurchaseInvoice";
+import PurchaseInvoicePreview from "./pages/PurchaseInvoicePreview";
+import Purchases from "./pages/purchases";
 
 function App() {
   return (
@@ -24,9 +27,14 @@ function App() {
           <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path="users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
           <Route path="add-invoice" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
-          <Route path="/invoice/view/:id" element={<ProtectedRoute><ViewInvoice /></ProtectedRoute>} />
+          {/* <Route path="/invoice/view/:id" element={<ProtectedRoute><ViewInvoice /></ProtectedRoute>} /> */}
           <Route path="/invoice/edit/:id" element={<ProtectedRoute><AddInvoice /></ProtectedRoute>} />
           <Route path="/invoice/preview" element={<ProtectedRoute><InvoicePreview /></ProtectedRoute>} />
+           {/* for purchase invoice */}
+           <Route path="purchases" element={<ProtectedRoute><Purchases /></ProtectedRoute>} />
+          <Route path="add-purchase-invoice" element={<ProtectedRoute>< AddPurchaseInvoice/></ProtectedRoute>} />
+          <Route path="/purchase-invoice/edit/:id" element={<ProtectedRoute><AddPurchaseInvoice /></ProtectedRoute>} />
+          <Route path="/purchase-invoice/preview" element={<ProtectedRoute><PurchaseInvoicePreview /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -54,8 +54,14 @@ function Items() {
     });
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+  e.preventDefault();
 
+  const formElement = e.currentTarget;
+
+  if (!formElement.checkValidity()) {
+    e.stopPropagation();
+  } else {
     if(editId){
       await updateItem(editId, form);
     }else{
@@ -64,6 +70,8 @@ function Items() {
 
     setShowModal(false);
     loadItems();
+  }
+  formElement.classList.add("was-validated");
   };
 
   const handleDelete = async (id) => {
@@ -98,6 +106,7 @@ function Items() {
             <th>Weight</th>
             <th>Price</th>
             <th>Premium</th>
+            <th>Type</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -111,7 +120,7 @@ function Items() {
               <td>{item.weight}</td>
               <td>{item.price}</td>
               <td>{item.premium}</td>
-
+              <td>{item.type}</td>
               <td>
 
                 <button
@@ -159,109 +168,116 @@ function Items() {
                 />
 
               </div>
-
+<form className="needs-validation" noValidate onSubmit={handleSave}>
               <div className="modal-body">
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Name</label>
-                  </div>
-                  <div className="col-9">
-                    <input
-                      className="form-control"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Description</label>
-                  </div>
-                  <div className="col-9">
-                    <input
-                      className="form-control"
-                      name="description"
-                      value={form.description}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Item Type</label>
+                
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Name</label>
+                    </div>
+                    <div className="col-9">
+                      <input
+                        className="form-control"
+                        name="name"
+                        value={form.name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
                   </div>
 
-                  <div className="col-9">
-                    <select
-                      className="form-control"
-                      name="type"
-                      value={form.type}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Type</option>
-                      <option value="Resident">Gold</option>
-                      <option value="Visitor">Silver</option>
-                    </select>
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Description</label>
+                    </div>
+                    <div className="col-9">
+                      <input
+                        className="form-control"
+                        name="description"
+                        value={form.description}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Purity</label>
-                  </div>
-                  <div className="col-9">
-                    <input
-                      className="form-control"
-                      name="purity"
-                      value={form.purity}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Item Type</label>
+                    </div>
 
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Weight</label>
+                    <div className="col-9">
+                      <select
+                        className="form-control"
+                        name="type"
+                        value={form.type}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Type</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                      </select>
+                    </div>
                   </div>
-                  <div className="col-9">
-                    <input
-                      className="form-control"
-                      name="weight"
-                      value={form.weight}
-                      onChange={handleChange}
-                    />
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Purity</label>
+                    </div>
+                    <div className="col-9">
+                      <input
+                        className="form-control"
+                        name="purity"
+                        value={form.purity}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Price</label>
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Weight</label>
+                    </div>
+                    <div className="col-9">
+                      <input
+                        className="form-control"
+                        name="weight"
+                        value={form.weight}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="col-9">
-                    <input
-                      className="form-control"
-                      name="price"
-                      value={form.price}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
 
-                <div className="row mb-2">
-                  <div className="col-3">
-                    <label className="form-label">Premium</label>
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Price</label>
+                    </div>
+                    <div className="col-9">
+                      <input
+                        className="form-control"
+                        name="price"
+                        value={form.price}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
-                  <div className="col-9">
-                    <input
-                      className="form-control"
-                      name="premium"
-                      value={form.premium}
-                      onChange={handleChange}
-                    />
+
+                  <div className="row mb-2">
+                    <div className="col-3">
+                      <label className="form-label">Premium</label>
+                    </div>
+                    <div className="col-9">
+                      <input
+                        className="form-control"
+                        name="premium"
+                        value={form.premium}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
+                  
                 </div>
-              </div>
+              
 
               <div className="modal-footer">
 
@@ -272,16 +288,17 @@ function Items() {
                   Cancel
                 </button>
 
-                <button
+                <button type="submit"
                   className="btn btn-success"
-                  onClick={handleSave}
+                 // onClick={handleSave}
                 >
                   Save
                 </button>
 
               </div>
-
+</form>
             </div>
+            
 
           </div>
 

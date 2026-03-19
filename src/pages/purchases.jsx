@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteInvoice, getInvoices } from "../services/invoiceService";
+import { deleteInvoice, getInvoices } from "../services/purchaseService";
 
-function Invoices() {
+function Purchases() {
   const navigate=useNavigate();
   const [invoices, setInvoices] = useState([
     {
@@ -36,7 +36,7 @@ const handlePrint = (invoice) => {
         setInvoices((prev) => prev.filter((inv) => inv._id !== id));
     
         // Show success alert
-        alert("Invoice deleted successfully!");
+        alert("purchase Invoice deleted successfully!");
       } catch (error) {
         console.error("Delete failed:", error);
         alert("Failed to delete Invoice.");
@@ -52,7 +52,7 @@ const formatDate = (date) => {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>Invoices</h3>
 
-        <button className="btn btn-primary" onClick={() => navigate("/add-invoice")}>
+        <button className="btn btn-primary" onClick={() => navigate("/add-purchase-invoice")}>
           Add Invoice
         </button>
       </div>
@@ -86,7 +86,7 @@ const formatDate = (date) => {
                   View
                 </button> */}
 
-                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/invoice/edit/${inv._id}`)}>
+                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/purchase-invoice/edit/${inv._id}`)}>
                   Edit
                 </button>
                 <button
@@ -114,4 +114,4 @@ const formatDate = (date) => {
   );
 }
 
-export default Invoices;
+export default Purchases;
