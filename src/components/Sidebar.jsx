@@ -3,6 +3,7 @@ import { FaUsers, FaFileInvoice, FaUserTie,FaCoins ,FaGem  } from "react-icons/f
 import "../css/Sidebar.css";
 
 function Sidebar() {
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="sidebar">
 
@@ -57,6 +58,7 @@ function Sidebar() {
           </NavLink>
         </li>
 
+          {user?.role !== "EMPLOYEE" && (
         <li>
           <NavLink
             to="/users"
@@ -67,7 +69,7 @@ function Sidebar() {
             <FaUserTie className="menu-icon" />
             Users
           </NavLink>
-        </li>
+        </li>)}
 
       </ul>
 

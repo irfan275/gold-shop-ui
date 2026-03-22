@@ -13,19 +13,21 @@ import InvoicePreview from "./pages/InvoicePreview";
 import AddPurchaseInvoice from "./pages/AddPurchaseInvoice";
 import PurchaseInvoicePreview from "./pages/PurchaseInvoicePreview";
 import Purchases from "./pages/purchases";
+import Unauthorized from "./pages/UnAuthorized";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
         <Route path="/" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           {/* <Route path="dashboard" element={<Dashboard />} /> */}
-          <Route path="customers" element={<ProtectedRoute><Customers /></ProtectedRoute>} />
+          <Route path="customers" element={<ProtectedRoute ><Customers /></ProtectedRoute>} />
           <Route path="items" element={<ProtectedRoute><Items /></ProtectedRoute>} />
           <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
-          <Route path="users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+          <Route path="users" element={<ProtectedRoute allowedRoles={["SUPER_ADMIN","ADMIN"]}><Users /></ProtectedRoute>} />
           <Route path="add-invoice" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
           {/* <Route path="/invoice/view/:id" element={<ProtectedRoute><ViewInvoice /></ProtectedRoute>} /> */}
           <Route path="/invoice/edit/:id" element={<ProtectedRoute><AddInvoice /></ProtectedRoute>} />

@@ -210,14 +210,14 @@ const silverRate = totals.silverWeight
 >
   <thead style={{ backgroundColor: "#e5e5e5" }}>
     <tr>
-      <th className="p-1 border border-black">No</th>
-      <th className="p-1 border border-black">Item Description</th>
-      <th className="p-1 border border-black">PCS</th>
-      <th className="p-1 border border-black">Purity</th>
-      <th className="p-1 border border-black">Pure Wt</th>
-      <th className="p-1 border border-black">Value</th>
-      <th className="p-1 border border-black">Premium</th>
-      <th className="p-1 border border-black">Amount (OMR)</th>
+      <th className="p-1 border border-black">No<br />رقم</th>
+      <th className="p-1 border border-black">Item Description<br />وصف السلعة</th>
+      <th className="p-1 border border-black">PCS<br />قِطَع</th>
+      <th className="p-1 border border-black">Purity<br />نقاء</th>
+      <th className="p-1 border border-black">Pure Wt<br />وزن</th>
+      <th className="p-1 border border-black">Value<br />قيمة</th>
+      <th className="p-1 border border-black">Premium<br />غالي</th>
+      <th className="p-1 border border-black">Amount (OMR)<br />المبلغ (بالريال العماني)</th>
     </tr>
   </thead>
 
@@ -279,8 +279,8 @@ const silverRate = totals.silverWeight
     </tr> */}
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
-      <td colSpan="7" className="p-1 border border-black font-bold" >
-        Total Amount Due
+      <td colSpan="7" className="p-1 border border-black fw-bold" >
+         Total Amount Due | المبلغ الإجمالي المستحق
       </td>
       <td className="p-1 border border-black font-bold">{invoice.finalTotal}</td>
     </tr>
@@ -291,7 +291,7 @@ const silverRate = totals.silverWeight
       <table className="notes border border-black border-collapse w-full mb-1" style={{ fontSize: '10px',width: '100%' }}>
         <tbody>
           <tr style={{ height: "20px" }}>
-            <td rowSpan={2} className="font-semibold align-top p-1 border border-black" style={{width:'20%'}}>Notes</td>
+            <td rowSpan={2} className="font-semibold align-middle text-center p-1 border border-black" style={{width:'20%'}}>Notes</td>
             <td className="p-1 border border-black">{line1}</td>
           </tr>
           <tr style={{ height: "20px" }}>

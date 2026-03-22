@@ -38,10 +38,10 @@ const navigate = useNavigate();
             <InvoiceTemplate invoice={invoice} copyType='Customer Copy'/>
 
         </div>
-        {/* <div className="invoice-copy">
+        <div className="invoice-copy">
             <InvoiceTemplate invoice={invoice} copyType='Merchant Copy'/>
 
-        </div> */}
+        </div>
       </div>
       
       

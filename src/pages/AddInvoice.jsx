@@ -34,6 +34,7 @@ const [showDropdown, setShowDropdown] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [weight, setWeight] = useState("");
   const [premium, setPremium] = useState("");
+  const [purity, setPurity] = useState("");
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [vat, setVat] = useState(0);
   const [shops, setShops] = useState([]);
@@ -91,6 +92,7 @@ const [showDropdown, setShowDropdown] = useState(false);
     setInvoiceNumber(inv.invoiceNumber);
     setInvoiceDate(inv.invoiceDate);
     setVat(inv.vat);
+    setShowDropdown(false);
   };
 useEffect(() => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -146,6 +148,7 @@ const handleSelectItem = (item) => {
   setItemSearch(item.name);
   setPrice(item.price);
   setPremium(item.premium);
+  setPurity(item.purity);
   setWeight(item.weight);
   setDiscount(0);
   setShowDropdown(false);
@@ -175,6 +178,7 @@ const handleSelectItem = (item) => {
     setPrice("");
     setQuantity(1);
     setPremium("");
+    setPurity("");
     setDiscount(0);
     setVat(0);
     setWeight("");
@@ -221,6 +225,8 @@ const handleSelectItem = (item) => {
         premium: i.premium,
         discount:i.discount,
         total: i.total,
+        type : i.type,
+        purity:purity
       })),
       total: total,
       subTotal: subTotal,
@@ -292,7 +298,8 @@ const handlePreview = () => {
       premium: i.premium,
       discount:i.discount,
       total: i.total,
-      type:i.type
+      type:i.type,
+      purity: i.purity
     })),
     total: total,
     subTotal: subTotal,
@@ -463,7 +470,11 @@ const handlePreview = () => {
           <label className="form-label">Premium</label>
           <input className="form-control" value={premium} onChange={(e) => setPremium(e.target.value)} />
         </div>
-        <div className="col-md-2">
+        <div className="col-md-1">
+          <label className="form-label">Purity</label>
+          <input className="form-control" value={purity} onChange={(e) => setPurity(e.target.value)} />
+        </div>
+        <div className="col-md-1">
           <label className="form-label">Weight</label>
           <input className="form-control" value={weight} onChange={(e) => setWeight(e.target.value)} />
         </div>
@@ -476,12 +487,13 @@ const handlePreview = () => {
       <table className="table table-bordered table-hover mb-3">
         <thead className="table-dark">
           <tr>
-            <th>Item</th>
+            <th style={{width:'20%'}}>Item</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Premium</th>
             <th>Weight</th>
-            <th>Total</th>
+            <th>Purity</th>
+            <th style={{width:'10%'}}>Total</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -493,6 +505,7 @@ const handlePreview = () => {
               <td><input type="number" className="form-control" value={i.quantity} onChange={(e) => handleEditItem(i.id, "quantity", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.premium} onChange={(e) => handleEditItem(i.id, "premium", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
+              <td><input type="number" className="form-control" value={i.purity} onChange={(e) => handleEditItem(i.id, "purity", e.target.value)} /></td>
               <td>{i.total}</td>
               <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i._id)}>Delete</button></td>
             </tr>

@@ -31,6 +31,7 @@ const [showDropdown, setShowDropdown] = useState(false);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [weight, setWeight] = useState("");
+  const [purity, setPurity] = useState("");
   const [premium, setPremium] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [vat, setVat] = useState(0);
@@ -145,6 +146,7 @@ const handleSelectItem = (item) => {
   setPrice(item.price);
   setPremium(item.premium);
   setWeight(item.weight);
+  setPurity(item.purity);
   setDiscount(0);
   setShowDropdown(false);
   setShowPreview(false);
@@ -217,8 +219,10 @@ const handleSelectItem = (item) => {
         weight: i.weight,
         quantity: i.quantity,
         premium: i.premium,
+        purity: i.purity,
         discount:i.discount,
         total: i.total,
+        type : i.type,
       })),
       total: total,
       subTotal: subTotal,
@@ -287,6 +291,7 @@ const handlePreview = () => {
       price: i.price,
       quantity: i.quantity,
       weight : i.weight,
+      purity: i.purity,
       premium: i.premium,
       discount:i.discount,
       total: i.total,
@@ -465,6 +470,10 @@ const handlePreview = () => {
           <label className="form-label">Weight</label>
           <input className="form-control" value={weight} onChange={(e) => setWeight(e.target.value)} />
         </div>
+        <div className="col-md-2">
+          <label className="form-label">Purity</label>
+          <input className="form-control" value={purity} onChange={(e) => setPurity(e.target.value)} />
+        </div>
         <div className="col-md-12 mt-2">
           <button className="btn btn-success" onClick={handleAddItem}>Add Item</button>
         </div>
@@ -474,12 +483,13 @@ const handlePreview = () => {
       <table className="table table-bordered table-hover mb-3">
         <thead className="table-dark">
           <tr>
-            <th>Item</th>
+            <th style={{width:'25%'}}>Item</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Premium</th>
             <th>Weight</th>
-            <th>Total</th>
+            <th>Purity</th>
+            <th style={{width:'10%'}}>Total</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -491,6 +501,7 @@ const handlePreview = () => {
               <td><input type="number" className="form-control" value={i.quantity} onChange={(e) => handleEditItem(i.id, "quantity", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.premium} onChange={(e) => handleEditItem(i.id, "premium", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
+              <td><input type="number" className="form-control" value={i.purity} onChange={(e) => handleEditItem(i.id, "purity", e.target.value)} /></td>
               <td>{i.total}</td>
               <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i._id)}>Delete</button></td>
             </tr>
