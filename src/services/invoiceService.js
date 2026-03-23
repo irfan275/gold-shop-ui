@@ -3,12 +3,16 @@ import api from "./api";
 const API_URL = "invoice";
 
 // GET all customers
-export const getInvoices = (page, size, search) => {
+// export const getInvoices = (page, size, invoiceNumber,customerId) => {
+//   return api.get(API_URL, {
+//     params: { page, size, invoiceNumber,customerId }
+//   });
+// };
+export const getInvoices = (page, limit, invoiceNumber, customerId) => {
   return api.get(API_URL, {
-    params: { page, size, search }
+    params: { page, limit, invoiceNumber, customerId }
   });
 };
-
 // GET customer by id
 export const getInvoiceById = (id) => {
   return api.get(`${API_URL}/${id}`);
@@ -31,7 +35,4 @@ export const deleteInvoice = (id) => {
 
 export const getInvoiceNumber = (id) => {
   return api.get(`shop/sequence/${id}`);
-};
-export const getInvoiceNumberForPurchase = (id) => {
-  return api.get(`shop/purchase/sequence/${id}`);
 };

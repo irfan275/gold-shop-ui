@@ -111,8 +111,8 @@ const silverRate = totals.silverWeight
 
         {/* Right Side: Company Block */}
         <div className="company-block text-left" style={{ fontSize: '11px', lineHeight: '1.2' }}>
-          <div>MUSCAT BULLION L.L.C</div>
-          <div>سبائك مسقط ش.م.م</div>
+          <div>MUSCAT INTERNATIONAL BULLION L.L.C</div>
+          <div>مسقط الدولية للسبائك ذ.م.م</div>
           <div>Shop No 1013,Way No.1423,Muttrah Gold Souq</div>
           <div>المحل رقم 1013، الطريق رقم 1423، سوق مطرح للذهب</div>
           {/* <div>{shop.address}</div>
