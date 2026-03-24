@@ -90,6 +90,8 @@ const [showDropdown, setShowDropdown] = useState(false);
     setInvoiceNumber(inv.invoiceNumber);
     setInvoiceDate(inv.invoiceDate);
     setVat(inv.vat);
+    setInvoiceId(id);
+    setShowPreview(true);
   };
 useEffect(() => {
   const user = JSON.parse(localStorage.getItem("user"));

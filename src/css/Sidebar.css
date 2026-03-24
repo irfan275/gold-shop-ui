@@ -1,7 +1,7 @@
 /* Sidebar container */
 .sidebar {
   width: 240px;
-  height: 120vh;
+  height: 150vh;
   background-color: #1f2937; /* dark slate */
   color: #f9fafb; /* light text */
   display: flex;

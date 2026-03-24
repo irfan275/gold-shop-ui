@@ -3,7 +3,7 @@ import { checkCardExpiry, getCustomers } from "../services/customerService";
 import { getItems, searchItems } from "../services/itemService";
 import { createInvoice } from "../services/invoiceService";
 import { getShops } from "../services/userService";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { updateInvoice } from "../services/invoiceService";
 import { getInvoiceById } from "../services/invoiceService";
 import { getInvoiceNumber } from "../services/invoiceService";
@@ -12,6 +12,8 @@ function AddInvoice() {
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [images, setImages] = useState(location.state?.images || []);
 
   // CUSTOMER STATE
   const [customerSearch, setCustomerSearch] = useState("");
@@ -93,6 +95,8 @@ const [showDropdown, setShowDropdown] = useState(false);
     setInvoiceDate(inv.invoiceDate);
     setVat(inv.vat);
     setShowDropdown(false);
+    setShowPreview(true);
+    setInvoiceId(id);
   };
 useEffect(() => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -315,9 +319,29 @@ const handlePreview = () => {
   };
 
 
-  navigate("/invoice/preview", { state: {invoice :invoiceData,show:true }});
+  navigate("/invoice/preview", { state: {invoice :invoiceData,show:true,images }});
 };
 
+const handleImageUpload = (e) => {
+  const files = Array.from(e.target.files);
+  if (files.length > 6) {
+    alert("Max 6 images allowed");
+    return;
+  }
+
+  // Map files to object with name + base64
+  const readers = files.map(file => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve({ name: file.name, data: reader.result });
+      reader.readAsDataURL(file);
+    });
+  });
+
+  Promise.all(readers).then((imagesWithNames) => {
+    setImages(imagesWithNames);
+  });
+};
   return (
     <div className="container mt-4">
       <h3>{isEditMode ? "Edit Invoice" : "Create Invoice"}</h3>
@@ -489,7 +513,7 @@ const handlePreview = () => {
           <tr>
             <th style={{width:'20%'}}>Item</th>
             <th>Price</th>
-            <th>Quantity</th>
+            <th>Quantity</th> 
             <th>Premium</th>
             <th>Weight</th>
             <th>Purity</th>
@@ -563,7 +587,7 @@ const handlePreview = () => {
 
         </div>
       <div className="row mb-3">
-        <div className="col-md-12 gap-2">
+        <div className="col-md-12 gap-2 ">
 
                   <label className="form-label">Note :</label>
 
@@ -576,7 +600,28 @@ const handlePreview = () => {
                   />
             </div>
       </div>
-      
+      <div className="row mb-3">
+        <input
+          type="file"
+          className="form-control"
+          accept="image/*"
+          multiple
+          onChange={handleImageUpload}
+        />
+        {/* Display selected file names */}
+        {images.length > 0 && (
+          <div className="mt-1">
+            <strong>Selected Files:</strong>
+            <ul className="list-group list-group-flush">
+              {images.map((img, index) => (
+                <li key={index} className="list-group-item p-1">
+                  {img.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
       {/* ------------- ACTION BUTTONS ------------- */}
       <div className="d-flex justify-content-end mb-4 gap-2">
         <button
