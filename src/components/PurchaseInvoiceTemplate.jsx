@@ -110,17 +110,19 @@ const silverRate = totals.silverWeight
         </div>
 
         {/* Right Side: Company Block */}
-        <div className="company-block text-left" style={{ fontSize: '11px', lineHeight: '1.2' }}>
-          <div>MUSCAT BULLION L.L.C</div>
-          <div>سبائك مسقط ش.م.م</div>
-          <div>Shop No 1013,Way No.1423,Muttrah Gold Souq</div>
-          <div>المحل رقم 1013، الطريق رقم 1423، سوق مطرح للذهب</div>
+        <div className="company-block text-left" style={{ fontSize: '12px', lineHeight: '1.5' }}>
+          <div>MUSCAT INTERNATIONAL BULLION L.L.C</div>
+          <div>مسقط الدولية للسبائك ذ.م.م</div>
+          <div>{shop.address}</div>
+          <div>{shop.address_ar}</div>
+          {/* <div>Shop No 1013,Way No.1423,Muttrah Gold Souq</div>
+          <div>المحل رقم 1013، الطريق رقم 1423، سوق مطرح للذهب</div> */}
           {/* <div>{shop.address}</div>
           <div>{shop.address_ar}</div>  */}
           {/* <div>P.O Box: 3062, PC:112, Ruwi, Sultanate of Oman</div>
           <div>ص.ب.: 3062، الرمز البريدي: 112، روي، سلطنة عمان</div> */}
-          <div>P.O Box: 590, PC:117, Wadi Al Kabir</div>
-          <div>ص.ب.: 590، الرمز البريدي: 117، وادي الكبير</div>
+          {/* <div>P.O Box: 590, PC:117, Wadi Al Kabir</div>
+          <div>ص.ب.: 590، الرمز البريدي: 117، وادي الكبير</div> */}
           <div>www.muscatbullion.com</div>
           <div>VATIN: OM1100325835</div>
           <div><strong>Tel: +968 24837434</strong></div>

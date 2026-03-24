@@ -3,12 +3,11 @@ import api from "./api";
 const API_URL = "purchase";
 
 // GET all customers
-export const getInvoices = (page, size, search) => {
+export const getInvoices = (page, limit, invoiceNumber, customerId) => {
   return api.get(API_URL, {
-    params: { page, size, search }
+    params: { page, limit, invoiceNumber, customerId }
   });
 };
-
 // GET customer by id
 export const getInvoiceById = (id) => {
   return api.get(`${API_URL}/${id}`);

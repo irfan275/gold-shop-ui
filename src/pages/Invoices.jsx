@@ -8,11 +8,12 @@ function Invoices() {
   const navigate=useNavigate();
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
-  const [size] = useState(2);
+  const [size] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [customerSearch, setCustomerSearch] = useState("");
   const [customerResults, setCustomerResults] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const [invoices, setInvoices] = useState([
     {
@@ -250,12 +251,12 @@ const formatDate = (date) => {
                 >
                   Print
                 </button>
-                <button
+                {user?.role !=='EMPLOYEE' &&(<button
                   className="btn btn-sm btn-danger"
                   onClick={() => handleDelete(inv._id)}
                 >
                   Delete
-                </button>
+                </button>)}
 
               </td>
             </tr>

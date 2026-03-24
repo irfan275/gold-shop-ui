@@ -166,6 +166,7 @@ const handleSelectItem = (item) => {
       premium: Number(premium || 0),
       discount: Number(discount || 0),
       weight: Number(weight || 0),
+      purity: purity,
       type:selectedItem.type,
       total: Number(price) * quantity+ Number(premium || 0)-discount,
     };
