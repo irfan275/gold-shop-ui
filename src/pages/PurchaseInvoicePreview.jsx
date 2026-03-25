@@ -34,10 +34,17 @@ const navigate = useNavigate();
 
       {/* Invoice */}
       <div className="print-area">
-        <div className="invoice-copy single-copy">
-            <PurchaseInvoiceTemplate invoice={invoice} copyType=''/>
+        <div className="invoice-copy ">
+            <PurchaseInvoiceTemplate invoice={invoice} copyType='Customer Copy'/>
 
         </div>
+        <div className="print-only">
+          <div className="invoice-copy ">
+              <PurchaseInvoiceTemplate invoice={invoice} copyType='Merchant Copy'/>
+
+          </div>
+        </div>
+        
       </div>
       
       

@@ -24,6 +24,7 @@ function Sidebar() {
             Customers
           </NavLink>
         </li>
+        {user?.role !== "EMPLOYEE" && (
         <li>
           <NavLink
             to="/items"
@@ -34,7 +35,7 @@ function Sidebar() {
             <FaGem   className="menu-icon" />
             Items
           </NavLink>
-        </li>
+        </li>)}
         <li>
           <NavLink
             to="/invoices"

@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           {/* <Route path="dashboard" element={<Dashboard />} /> */}
           <Route path="customers" element={<ProtectedRoute ><Customers /></ProtectedRoute>} />
-          <Route path="items" element={<ProtectedRoute><Items /></ProtectedRoute>} />
+          <Route path="items" element={<ProtectedRoute allowedRoles={["SUPER_ADMIN","ADMIN"]}><Items /></ProtectedRoute>} />
           <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path="users" element={<ProtectedRoute allowedRoles={["SUPER_ADMIN","ADMIN"]}><Users /></ProtectedRoute>} />
           <Route path="add-invoice" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
