@@ -137,7 +137,34 @@
   object-fit: cover;
   border: 1px solid #ccc;
 }
+.file-tag {
+  display: inline-flex;
+  align-items: center;
+  background: #e5e7eb; /* light gray */
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
 
+.file-name {
+  margin-right: 6px;
+}
+
+.remove-btn {
+  cursor: pointer;
+  font-weight: bold;
+  color: #555;
+}
+
+.remove-btn:hover {
+  color: red;
+}
+.file-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 @media print {
 
   body * {

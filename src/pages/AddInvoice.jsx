@@ -156,7 +156,7 @@ const handleSelectItem = (item) => {
   setWeight(item.weight);
   setDiscount(0);
   setShowDropdown(false);
-  setShowPreview(false);
+  //setShowPreview(false);
 };
   // ------------------ ADD ITEM ------------------
   const handleAddItem = () => {
@@ -173,10 +173,13 @@ const handleSelectItem = (item) => {
       premium: Number(premium || 0),
       discount: Number(discount || 0),
       weight: Number(weight || 0),
+      purity: Number(purity || 0),
       type:selectedItem.type,
       total: Number(price) * quantity+ Number(premium || 0)-discount,
     };
-    setInvoiceItems([...invoiceItems, newItem]);
+    const updatedItems = [...invoiceItems, newItem];
+    setInvoiceItems(updatedItems);
+    calculateVAT(updatedItems);
     setSelectedItem(null);
     setItemSearch("");
     setPrice("");
@@ -184,15 +187,16 @@ const handleSelectItem = (item) => {
     setPremium("");
     setPurity("");
     setDiscount(0);
-    setVat(0);
+    //setVat(0);
     setWeight("");
-    setShowPreview(false);
+    setPurity("");
+    //setShowPreview(false);
   };
 
   // ------------------ DELETE ITEM ------------------
   const handleDeleteItem = (id) => {
     setInvoiceItems(invoiceItems.filter((i) => i._id !== id));
-    setShowPreview(false);
+    //setShowPreview(false);
   };
 
   // ------------------ EDIT ITEM ------------------
@@ -206,8 +210,33 @@ const handleSelectItem = (item) => {
       return i;
     });
     setInvoiceItems(updatedItems);
-    setShowPreview(false);
+    //setShowPreview(false);
   };
+const calculateVAT = (items) => {
+  let highPurityTotal = 0;
+  let lowPurityTotal = 0;
+
+  items.forEach((item) => {
+    //const premium = item.weight * item.pricePerGram;
+    if (item.purity >= 995 && item.purity <= 999) {
+      highPurityTotal += item.premium || 0;
+    } else {
+      lowPurityTotal += item.price ;
+    }
+  });
+
+  const highPurityVAT = highPurityTotal * 0.05;
+  const lowPurityVAT = lowPurityTotal * 0.05;
+
+  // return {
+  //   highPurityVAT,
+  //   lowPurityVAT,
+  //   totalVAT: highPurityVAT + lowPurityVAT,
+  // };
+  setVat(highPurityVAT + lowPurityVAT);
+};
+
+// Example usage
 
   // ------------------ TOTALS ------------------
   const subTotal = invoiceItems.reduce((sum, i) => sum + i.total, 0);
@@ -230,7 +259,7 @@ const handleSelectItem = (item) => {
         discount:i.discount,
         total: i.total,
         type : i.type,
-        purity:purity
+        purity:i.purity
       })),
       total: total,
       subTotal: subTotal,
@@ -288,6 +317,10 @@ const handleShopChange = async (shopId) => {
   } catch (error) {
     console.error("Failed to fetch invoice number", error);
   }
+};
+const handleRemoveImage = (indexToRemove) => {
+  const updated = images.filter((_, index) => index !== indexToRemove);
+  setImages(updated);
 };
 const handlePreview = () => {
 
@@ -612,13 +645,20 @@ const handleImageUpload = (e) => {
         {images.length > 0 && (
           <div className="mt-1">
             <strong>Selected Files:</strong>
-            <ul className="list-group list-group-flush">
+
+            <div className="d-flex flex-wrap gap-2 mt-1">
               {images.map((img, index) => (
-                <li key={index} className="list-group-item p-1">
-                  {img.name}
-                </li>
+                <div key={index} className="file-tag">
+                  <span className="file-name">{img.name}</span>
+                  <span
+                    className="remove-btn"
+                    onClick={() => handleRemoveImage(index)}
+                  >
+                    ✕
+                  </span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
       </div>

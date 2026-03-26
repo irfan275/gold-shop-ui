@@ -265,7 +265,7 @@ const silverRate = totals.silverWeight
       <td colSpan="5" className="p-1 border border-black text-start">VAT (5%) On Workmanship | ضريبة القيمة المضافة (٥٪) على المصنعية</td>
       <td className="p-1 border border-black">5%</td>
       <td className="p-1 border border-black"></td>
-      <td className="p-1 border border-black">0.000</td>
+      <td className="p-1 border border-black">{invoice.vat}</td>
     </tr>
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
