@@ -218,11 +218,15 @@ const calculateVAT = (items) => {
 
   items.forEach((item) => {
     //const premium = item.weight * item.pricePerGram;
-    if (item.purity >= 995 && item.purity <= 999) {
-      highPurityTotal += item.premium || 0;
-    } else {
-      lowPurityTotal += item.price ;
+    if(item.type == 'Gold')
+    {
+      if (item.purity >= 995 && item.purity <= 999) {
+        highPurityTotal += item.premium || 0;
+      } else {
+        lowPurityTotal += item.price ;
+      }
     }
+    
   });
 
   const highPurityVAT = highPurityTotal * 0.05;
