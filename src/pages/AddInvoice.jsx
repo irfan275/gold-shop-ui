@@ -419,7 +419,7 @@ const handleImageUpload = (e) => {
             className="list-group-item list-group-item-action"
             onClick={(e) => handleCustomerSelection(c)}
           >
-            {c.name}
+            {c.name } - {c.civilId}
           </li>
 
         ))}

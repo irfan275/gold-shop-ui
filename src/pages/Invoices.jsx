@@ -165,7 +165,7 @@ const formatDate = (date) => {
               onClick={() => handleCustomerSelection(c)}
               style={{ cursor: "pointer" }}
             >
-              {c.name}
+              {c.name } - {c.civilId}
             </li>
           ))}
         </ul>
