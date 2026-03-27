@@ -44,7 +44,7 @@ const [showDropdown, setShowDropdown] = useState(false);
   // ------------------ CUSTOMER SEARCH ------------------
   useEffect(() => {
 
-    if (customerSearch.length < 5 || selectedCustomer) {
+    if (customerSearch.length < 3 || selectedCustomer) {
       setCustomerResults([]);
       return;
     }
@@ -339,7 +339,7 @@ const handlePreview = () => {
 
     <input
       className="form-control"
-      placeholder="Search Customer (min 5 chars)"
+      placeholder="Search Customer (min 3 chars)"
       value={customerSearch}
       onChange={(e) => setCustomerSearch(e.target.value)}
     />

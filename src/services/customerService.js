@@ -17,8 +17,17 @@ export const checkCardExpiry = (id) => {
   return api.get(`${API_URL}/checkCardExpiry/${id}`);
 };
 // CREATE customer
-export const createCustomer = (customer) => {
-  return api.post(API_URL, customer);
+export const createCustomer = async(customer) => {
+ // return api.post(API_URL, customer);
+  try {
+    const res = await api.post(API_URL, customer);
+    return res.data;
+  } catch (error) {
+    return {
+      status: false,
+      message: error.response?.data?.message || "Error",
+    };
+  }
 };
 
 // UPDATE customer

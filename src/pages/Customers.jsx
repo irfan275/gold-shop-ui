@@ -36,8 +36,8 @@ const loadCustomers = async (pageNumber = 1, search = "") => {
 };
 const handleSearch = () => {
 
-  if (searchText.length > 0 && searchText.length < 5) {
-    alert("Search text must be at least 5 characters");
+  if (searchText.length > 0 && searchText.length < 3) {
+    alert("Search text must be at least 3 characters");
     return;
   }
 
@@ -74,14 +74,19 @@ const handleSearch = () => {
         alert("Date must be in format dd/mm/yyyy");
         return;
       }
+      let data = {}
       if(editId){
-        await updateCustomer(editId, form);
+       data =  await updateCustomer(editId, form);
       }else{
-        await createCustomer(form);
+        data =await createCustomer(form);
+      }
+      if(!data.status){
+          alert(data.message);
+      }else{
+        setShowModal(false);
+        loadCustomers();
       }
 
-      setShowModal(false);
-      loadCustomers();
     }
     formElement.classList.add("was-validated");
   };

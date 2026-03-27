@@ -105,7 +105,7 @@ const handleCustomerSelection = async (c) => {
   // ------------------ CUSTOMER SEARCH ------------------
   useEffect(() => {
 
-    if (customerSearch.length < 5 || selectedCustomer) {
+    if (customerSearch.length < 3 || selectedCustomer) {
       setCustomerResults([]);
       return;
     }
