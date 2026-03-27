@@ -244,7 +244,7 @@ const calculateVAT = (items) => {
 
   // ------------------ TOTALS ------------------
   const subTotal = invoiceItems.reduce((sum, i) => sum + i.total, 0);
-  const total = subTotal - Number(vat || 0);
+  const total = subTotal + Number(vat || 0);
   const finalTotal = total - Number(totalDiscount || 0);
 
   // ------------------ SAVE INVOICE ------------------
