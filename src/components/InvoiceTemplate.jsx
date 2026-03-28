@@ -123,7 +123,7 @@ const silverRate = totals.silverWeight
           <div>ص.ب.: 590، الرمز البريدي: 117، وادي الكبير</div> */}
           <div>www.muscatbullion.com</div>
           <div>VATIN: OM1100325835</div>
-          <div><strong>Tel: +968 24837434</strong></div>
+          <div><strong>Tel: +968 24827434, 24714741</strong></div>
         </div>
       </div>
 
@@ -228,11 +228,11 @@ const silverRate = totals.silverWeight
         <td className="p-1 border border-black">{i + 1}</td>
         <td className="p-1 border border-black">{item.itemId?.name}</td>
         <td className="p-1 border border-black">{item.quantity}</td>
-        <td className="p-1 border border-black">{item.purity}</td>
+        <td className="p-1 border border-black">{item.purity.toFixed(1)}</td>
         <td className="p-1 border border-black">{item.weight}</td>
-        <td className="p-1 border border-black">{item.price}</td>
-        <td className="p-1 border border-black">{item.premium}</td>
-        <td className="p-1 border border-black">{item.total}</td>
+        <td className="p-1 border border-black">{item.price.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.premium.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.total.toFixed(3)}</td>
       </tr>
     ))}
 
@@ -256,33 +256,33 @@ const silverRate = totals.silverWeight
       <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.quantity, 0)}</td>
       <td className="p-1 border border-black"></td>
       <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.weight, 0)}</td>
-      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.price, 0)}</td>
-      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.premium, 0)}</td>
-      <td className="p-1 border border-black">{invoice.subTotal}</td>
+      <td className="p-1 border border-black">{(items.reduce((sum, i) => sum + i.price, 0)).toFixed(3)}</td>
+      <td className="p-1 border border-black">{(items.reduce((sum, i) => sum + i.premium, 0)).toFixed(3)}</td>
+      <td className="p-1 border border-black">{(invoice.subTotal).toFixed(3)}</td>
     </tr>
 
     <tr>
       <td colSpan="5" className="p-1 border border-black text-start">VAT (5%) On Workmanship | ضريبة القيمة المضافة (٥٪) على المصنعية</td>
       <td className="p-1 border border-black">5%</td>
       <td className="p-1 border border-black"></td>
-      <td className="p-1 border border-black">{invoice.vat}</td>
+      <td className="p-1 border border-black">{(invoice.vat).toFixed(3)}</td>
     </tr>
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
       <td colSpan="7" className="p-1 border border-black text-start fw-bold" >Totals | المجموع</td>
-      <td className="p-1 border border-black">{invoice.total}</td>
+      <td className="p-1 border border-black">{invoice.total.toFixed(3)}</td>
     </tr>
 
     <tr>
       <td colSpan="7" className="p-1 border border-black text-start">Discount | تخفيض</td>
-      <td className="p-1 border border-black">{invoice.discount}</td>
+      <td className="p-1 border border-black">{invoice.discount.toFixed(3)}</td>
     </tr>
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
       <td colSpan="7" className="p-1 border border-black fw-bold" >
         Total Amount Due | المبلغ الإجمالي المستحق
       </td>
-      <td className="p-1 border border-black fw-bold">{invoice.finalTotal}</td>
+      <td className="p-1 border border-black fw-bold">{invoice.finalTotal.toFixed(3)}</td>
     </tr>
   </tbody>
 </table>
