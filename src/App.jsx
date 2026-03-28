@@ -14,6 +14,10 @@ import AddPurchaseInvoice from "./pages/AddPurchaseInvoice";
 import PurchaseInvoicePreview from "./pages/PurchaseInvoicePreview";
 import Purchases from "./pages/purchases";
 import Unauthorized from "./pages/UnAuthorized";
+import Receipts from "./pages/Receipt";
+import AddReciptInvoice from "./pages/AddReceiptInvoice";
+import ReceiptInvoiceTemplate from "./components/ReceiptInvoiceTemplate";
+import ReceiptInvoicePreview from "./pages/ReceiptInvoicePreview";
 
 function App() {
   return (
@@ -37,6 +41,11 @@ function App() {
           <Route path="add-purchase-invoice" element={<ProtectedRoute>< AddPurchaseInvoice/></ProtectedRoute>} />
           <Route path="/purchase-invoice/edit/:id" element={<ProtectedRoute><AddPurchaseInvoice /></ProtectedRoute>} />
           <Route path="/purchase-invoice/preview" element={<ProtectedRoute><PurchaseInvoicePreview /></ProtectedRoute>} />
+
+          <Route path="receipts" element={<ProtectedRoute><Receipts /></ProtectedRoute>} />
+          <Route path="add-receipt-invoice" element={<ProtectedRoute>< AddReciptInvoice/></ProtectedRoute>} />
+          <Route path="/receipt-invoice/edit/:id" element={<ProtectedRoute><AddReciptInvoice /></ProtectedRoute>} />
+          <Route path="/receipt-invoice/preview" element={<ProtectedRoute><ReceiptInvoicePreview /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>
