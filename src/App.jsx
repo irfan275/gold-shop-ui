@@ -18,7 +18,7 @@ import Receipts from "./pages/Receipt";
 import AddReciptInvoice from "./pages/AddReceiptInvoice";
 import ReceiptInvoiceTemplate from "./components/ReceiptInvoiceTemplate";
 import ReceiptInvoicePreview from "./pages/ReceiptInvoicePreview";
-import GoldPayment from "./pages/goldPayment";
+import GoldPayment from "./pages/GoldPayment";
 import AddGoldPaymentInvoice from "./pages/AddGoldPaymentInvoice";
 import GoldPaymentInvoicePreview from "./pages/GoldPaymentInvoicePreview";
 
