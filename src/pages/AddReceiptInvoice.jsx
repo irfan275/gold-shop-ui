@@ -240,7 +240,7 @@ const handlePreview = () => {
 
   return (
     <div className="container mt-4">
-      <h3>{isEditMode ? "Edit Invoice" : "Create Invoice"}</h3>
+      <h3>{isEditMode ? "Edit Receipt Invoice" : "Create Receipt Invoice"}</h3>
       {invoiceNumber && (
         <div className="row mb-3">
           <div className="col-md-6">
