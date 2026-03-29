@@ -18,6 +18,9 @@ import Receipts from "./pages/Receipt";
 import AddReciptInvoice from "./pages/AddReceiptInvoice";
 import ReceiptInvoiceTemplate from "./components/ReceiptInvoiceTemplate";
 import ReceiptInvoicePreview from "./pages/ReceiptInvoicePreview";
+import GoldPayment from "./pages/goldPayment";
+import AddGoldPaymentInvoice from "./pages/AddGoldPaymentInvoice";
+import GoldPaymentInvoicePreview from "./pages/GoldPaymentInvoicePreview";
 
 function App() {
   return (
@@ -46,6 +49,11 @@ function App() {
           <Route path="add-receipt-invoice" element={<ProtectedRoute>< AddReciptInvoice/></ProtectedRoute>} />
           <Route path="/receipt-invoice/edit/:id" element={<ProtectedRoute><AddReciptInvoice /></ProtectedRoute>} />
           <Route path="/receipt-invoice/preview" element={<ProtectedRoute><ReceiptInvoicePreview /></ProtectedRoute>} />
+
+          <Route path="goldpayment" element={<ProtectedRoute><GoldPayment /></ProtectedRoute>} />
+          <Route path="add-goldpayment-invoice" element={<ProtectedRoute>< AddGoldPaymentInvoice/></ProtectedRoute>} />
+          <Route path="/goldpayment-invoice/edit/:id" element={<ProtectedRoute><AddGoldPaymentInvoice /></ProtectedRoute>} />
+          <Route path="/goldpayment-invoice/preview" element={<ProtectedRoute><GoldPaymentInvoicePreview /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>
