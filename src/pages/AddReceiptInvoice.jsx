@@ -369,7 +369,9 @@ const handlePreview = () => {
                       <option value="">Select Type</option>
                       <option value="cash">Cash</option>
                       <option value="card">Card</option>
-                      <option value="transfer">Mobile Transfer</option>
+                      <option value="mobile_transfer">Mobile Transfer</option>
+                      <option value="bank_transfer">Bank Transfer</option>
+                      <option value="scan_pay">Scan and Pay</option>
                     </select>
                   </div>
           </div>
