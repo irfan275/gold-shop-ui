@@ -19,7 +19,7 @@ import AddReciptInvoice from "./pages/AddReceiptInvoice";
 import ReceiptInvoicePreview from "./pages/ReceiptInvoicePreview";
 import AddGoldPaymentInvoice from "./pages/AddGoldPaymentInvoice";
 import GoldPaymentInvoicePreview from "./pages/GoldPaymentInvoicePreview";
-import GoldPayment from "./pages/goldPayment";
+import GoldPayment from "./pages/GoldPayment";
 
 function App() {
   return (
