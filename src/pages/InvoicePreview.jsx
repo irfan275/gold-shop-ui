@@ -19,7 +19,7 @@ const navigate = useNavigate();
   };
   const handleBack = () => {
     //navigate(-1); // go back with same state
-    navigate(`/invoice/edit/${invoice.id}`,{ state: { invoice, images } });
+    navigate(`/invoices/edit/${invoice.id}`,{ state: { invoice, images } });
   };
   return (
     <div>

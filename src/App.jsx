@@ -34,25 +34,25 @@ function App() {
           <Route path="items" element={<ProtectedRoute allowedRoles={["SUPER_ADMIN","ADMIN"]}><Items /></ProtectedRoute>} />
           <Route path="invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path="users" element={<ProtectedRoute allowedRoles={["SUPER_ADMIN","ADMIN"]}><Users /></ProtectedRoute>} />
-          <Route path="add-invoice" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
+          <Route path="/invoices/add" element={<ProtectedRoute>< AddInvoice/></ProtectedRoute>} />
           {/* <Route path="/invoice/view/:id" element={<ProtectedRoute><ViewInvoice /></ProtectedRoute>} /> */}
-          <Route path="/invoice/edit/:id" element={<ProtectedRoute><AddInvoice /></ProtectedRoute>} />
-          <Route path="/invoice/preview" element={<ProtectedRoute><InvoicePreview /></ProtectedRoute>} />
+          <Route path="/invoices/edit/:id" element={<ProtectedRoute><AddInvoice /></ProtectedRoute>} />
+          <Route path="/invoices/preview" element={<ProtectedRoute><InvoicePreview /></ProtectedRoute>} />
            {/* for purchase invoice */}
            <Route path="purchases" element={<ProtectedRoute><Purchases /></ProtectedRoute>} />
-          <Route path="add-purchase-invoice" element={<ProtectedRoute>< AddPurchaseInvoice/></ProtectedRoute>} />
-          <Route path="/purchase-invoice/edit/:id" element={<ProtectedRoute><AddPurchaseInvoice /></ProtectedRoute>} />
-          <Route path="/purchase-invoice/preview" element={<ProtectedRoute><PurchaseInvoicePreview /></ProtectedRoute>} />
+          <Route path="/purchases/add" element={<ProtectedRoute>< AddPurchaseInvoice/></ProtectedRoute>} />
+          <Route path="/purchases/edit/:id" element={<ProtectedRoute><AddPurchaseInvoice /></ProtectedRoute>} />
+          <Route path="/purchases/preview" element={<ProtectedRoute><PurchaseInvoicePreview /></ProtectedRoute>} />
 
           <Route path="receipts" element={<ProtectedRoute><Receipts /></ProtectedRoute>} />
-          <Route path="add-receipt-invoice" element={<ProtectedRoute>< AddReciptInvoice/></ProtectedRoute>} />
-          <Route path="/receipt-invoice/edit/:id" element={<ProtectedRoute><AddReciptInvoice /></ProtectedRoute>} />
-          <Route path="/receipt-invoice/preview" element={<ProtectedRoute><ReceiptInvoicePreview /></ProtectedRoute>} />
+          <Route path="receipts/add" element={<ProtectedRoute>< AddReciptInvoice/></ProtectedRoute>} />
+          <Route path="/receipts/edit/:id" element={<ProtectedRoute><AddReciptInvoice /></ProtectedRoute>} />
+          <Route path="/receipts/preview" element={<ProtectedRoute><ReceiptInvoicePreview /></ProtectedRoute>} />
 
           <Route path="goldpayment" element={<ProtectedRoute><GoldPayment /></ProtectedRoute>} />
-          <Route path="add-goldpayment-invoice" element={<ProtectedRoute>< AddGoldPaymentInvoice/></ProtectedRoute>} />
-          <Route path="/goldpayment-invoice/edit/:id" element={<ProtectedRoute><AddGoldPaymentInvoice /></ProtectedRoute>} />
-          <Route path="/goldpayment-invoice/preview" element={<ProtectedRoute><GoldPaymentInvoicePreview /></ProtectedRoute>} />
+          <Route path="goldpayment/add" element={<ProtectedRoute>< AddGoldPaymentInvoice/></ProtectedRoute>} />
+          <Route path="/goldpayment/edit/:id" element={<ProtectedRoute><AddGoldPaymentInvoice /></ProtectedRoute>} />
+          <Route path="/goldpayment/preview" element={<ProtectedRoute><GoldPaymentInvoicePreview /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

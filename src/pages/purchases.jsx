@@ -57,7 +57,7 @@ const loadInvoices = async (pageNumber = 1) => {
   setPage(pageNumber);
 };
 const handlePrint = (invoice) => {
-  navigate("/purchase-invoice/preview", { state : { invoice: invoice, show: false }});
+  navigate("/purchases/preview", { state : { invoice: invoice, show: false }});
 };
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure to delete this invoice?")) {
@@ -132,7 +132,7 @@ const formatDate = (date) => {
 
     <button
       className="btn btn-primary"
-      onClick={() => navigate("/add-purchase-invoice")}
+      onClick={() => navigate("/purchases/add")}
     >
       Add Invoice
     </button>
@@ -242,7 +242,7 @@ const formatDate = (date) => {
                   View
                 </button> */}
 
-                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/purchase-invoice/edit/${inv._id}`)}>
+                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/purchases/edit/${inv._id}`)}>
                   Edit
                 </button>
                 <button

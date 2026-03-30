@@ -235,7 +235,7 @@ const handlePreview = () => {
   };
 
 
-  navigate("/receipt-invoice/preview", { state: {invoice :invoiceData,show:true }});
+  navigate("/receipts/preview", { state: {invoice :invoiceData,show:true }});
 };
 
   return (

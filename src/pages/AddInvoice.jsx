@@ -357,7 +357,7 @@ const handlePreview = () => {
   };
 
 
-  navigate("/invoice/preview", { state: {invoice :invoiceData,show:true,images }});
+  navigate("/invoices/preview", { state: {invoice :invoiceData,show:true,images }});
 };
 
 const handleImageUpload = (e) => {

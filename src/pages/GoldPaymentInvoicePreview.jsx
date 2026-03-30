@@ -13,7 +13,7 @@ const navigate = useNavigate();
   };
   const handleBack = () => {
     //navigate(-1); // go back with same state
-    navigate(`/goldpayment-invoice/edit/${invoice.id}`);
+    navigate(`/goldpayment/edit/${invoice.id}`);
   };
   return (
     <div>

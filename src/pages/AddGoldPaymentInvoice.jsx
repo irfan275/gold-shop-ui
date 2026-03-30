@@ -280,7 +280,7 @@ const handlePreview = () => {
   };
 
 
-  navigate("/goldpayment-invoice/preview", { state: {invoice :invoiceData,show:true }});
+  navigate("/goldpayment/preview", { state: {invoice :invoiceData,show:true }});
 };
 
   return (

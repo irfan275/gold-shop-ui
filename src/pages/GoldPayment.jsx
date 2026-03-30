@@ -57,7 +57,7 @@ const loadInvoices = async (pageNumber = 1) => {
   setPage(pageNumber);
 };
 const handlePrint = (invoice) => {
-  navigate("/goldpayment-invoice/preview", { state : { invoice: invoice, show: false }});
+  navigate("/goldpayment/preview", { state : { invoice: invoice, show: false }});
 };
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure to delete this invoice?")) {
@@ -132,7 +132,7 @@ const formatDate = (date) => {
 
     <button
       className="btn btn-primary"
-      onClick={() => navigate("/add-goldpayment-invoice")}
+      onClick={() => navigate("/goldpayment/add")}
     >
       Add Invoice
     </button>
@@ -238,7 +238,7 @@ const formatDate = (date) => {
 
               <td>
 
-                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/goldpayment-invoice/edit/${inv._id}`)}>
+                <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/goldpayment/edit/${inv._id}`)}>
                   Edit
                 </button>
                 <button
