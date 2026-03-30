@@ -186,7 +186,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
       <th className="p-1 border border-black" style={{width:'10%'}}>PCS</th>
       <th className="p-1 border border-black"style={{width:'10%'}}>Gross</th>
       <th className="p-1 border border-black"style={{width:'10%'}}>Purity</th>
-      <th className="p-1 border border-black"style={{width:'15%'}}>Amount (OMR)</th>
+      <th className="p-1 border border-black"style={{width:'15%'}}>Pure Weight</th>
     </tr>
   </thead>
 
@@ -271,14 +271,14 @@ const [line1, line2] = getNoteLines(invoice.notes);
           display: "flex"
         }}
       >
-        <b style={{ width: "80px" }}>Remarks | ملاحظات</b>
+        <b style={{ width: "80px" }}>Remarks </b>
 
         
       </div>
       {/* ===== TERMS ===== */}
 <table
   className="w-full border border-black border-collapse mb-1"
-  style={{ fontSize: "9.5px", tableLayout: "fixed" }}
+  style={{ fontSize: "9.5px", tableLayout: "fixed",width:'inherit',lineHeight:1.5 }}
 >
   <tbody>
     <tr>
@@ -286,12 +286,13 @@ const [line1, line2] = getNoteLines(invoice.notes);
         style={{ width: "100%" }}
         className="p-1 align-top font-bold"
       >
-        <strong>"This Receipt Voucher is for Cash Received / Bank transfer, against Advance / Rate Margin"</strong>
-        <br/><br/>
-        <strong>I hereby confirm above information to cash declaration has been completed accurately to best of my knowledge 
-        and belief with Anti - Money Laundering and Combating the Financing of Terrorism policy 
-        of Central Bank Of Oman with specific regards being made to the know your 
-        customer / due diligence procedures contained therein.</strong>
+        <strong style={{textDecoration: "underline",
+            fontSize: "12px",
+            fontWeight: "bold"}}> Terms & Conditions:</strong>
+        <br/>
+        <strong>
+          1.Goods must be delivered only to the authorised representative of the company.<br/>
+          2.Goods are subject to checking of purity and authenticity of the same.</strong>
       </td>
     </tr>
   </tbody>

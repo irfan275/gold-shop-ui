@@ -466,9 +466,9 @@ const handlePreview = () => {
           <tr>
             <th style={{width:'40%'}}>Item</th>
             <th>Quantity</th>
-            <th>Price</th>
+            <th>Gross</th>
             <th>Purity</th>
-            <th style={{width:'10%'}}>Total</th>
+            <th style={{width:'10%'}}>Pure Weight</th>
             <th>Action</th>
           </tr>
         </thead>
