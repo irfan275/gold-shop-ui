@@ -20,6 +20,9 @@ import ReceiptInvoicePreview from "./pages/ReceiptInvoicePreview";
 import AddGoldPaymentInvoice from "./pages/AddGoldPaymentInvoice";
 import GoldPaymentInvoicePreview from "./pages/GoldPaymentInvoicePreview";
 import GoldPayment from "./pages/GoldPayment";
+import GoldReceive from "./pages/GoldReceive";
+import AddGoldReceiveInvoice from "./pages/AddGoldReceiveInvoice";
+import GoldReceiveInvoicePreview from "./pages/GoldReceiveInvoicePreview";
 
 function App() {
   return (
@@ -53,6 +56,11 @@ function App() {
           <Route path="goldpayment/add" element={<ProtectedRoute>< AddGoldPaymentInvoice/></ProtectedRoute>} />
           <Route path="/goldpayment/edit/:id" element={<ProtectedRoute><AddGoldPaymentInvoice /></ProtectedRoute>} />
           <Route path="/goldpayment/preview" element={<ProtectedRoute><GoldPaymentInvoicePreview /></ProtectedRoute>} />
+
+          <Route path="goldreceive" element={<ProtectedRoute><GoldReceive /></ProtectedRoute>} />
+          <Route path="goldreceive/add" element={<ProtectedRoute>< AddGoldReceiveInvoice/></ProtectedRoute>} />
+          <Route path="/goldreceive/edit/:id" element={<ProtectedRoute><AddGoldReceiveInvoice /></ProtectedRoute>} />
+          <Route path="/goldreceive/preview" element={<ProtectedRoute><GoldReceiveInvoicePreview /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

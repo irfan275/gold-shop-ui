@@ -1,0 +1,339 @@
+import { useEffect, useState } from "react";
+import "../css/invoice.css";
+import { getCustomerById } from "../services/customerService";
+import { getShopById, getShops } from "../services/userService";
+import { getInvoiceById } from "../services/goldReceiveService";
+
+function GoldReceiveInvoiceTemplate({ invoice ,copyType}) {
+  const [customer,setCustomer] = useState({});
+  //const [invoice,setInvoice] = useState(invoice1);
+  const [shop,setShop] = useState({});
+  const [name,setName] = useState("");
+  useEffect(() => {
+    const loadCustomer = async () => {
+      const res = await getCustomerById(invoice.customerId._id);
+      setCustomer(res.data.data || []);
+    };
+  
+    loadCustomer();
+  }, []);
+  // useEffect(() => {
+  //   const loadInvoice = async () => {
+  //     const res = await getInvoiceById(invoice._id);
+  //     setInvoice(res.data.data || []);
+  //   };
+  //   if(invoice._id)
+  //     loadInvoice();
+  // }, []);
+    useEffect(() => {
+      fetchShop();
+    }, []);
+    const fetchShop = async () => {
+      const response = await getShopById(invoice.shop._id);
+      setShop(response.data.data || []);
+    };
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setName(user.name);
+  }, [name]);
+  const minRows = 6; // minimum rows to keep table height fixed
+  const items = invoice?.items || []; // dynamic items
+  const emptyRows = minRows - items.length > 0 ? minRows - items.length : 0;
+  const getNoteLines = (text) => {
+  if (!text) return ["", ""];
+
+  const lines = text.split("\n");
+
+  return [
+    lines[0] || "",
+    lines[1] || ""
+  ];
+};
+const [line1, line2] = getNoteLines(invoice.notes);
+  return (
+    <div className="invoice" style={{ width: '150mm', padding: '3mm', fontSize: '10px', lineHeight: '1.1' }}>
+
+      {/* ===== HEADER ===== */}
+      <div className="header flex justify-between w-full mb-1">
+        {/* Left Side: Logo + Subtitle */}
+        <div className="left-block" style={{ width: '240px' }}>
+        <div
+            className="logo-block font-bold"
+            style={{
+                fontSize: '42px',
+                lineHeight: '1',
+                border: '2px solid #000', // black box
+                color: '#fff',
+                textAlign: 'left',
+                fontWeight: 'bold',
+                padding: '0px 15px',
+            }}
+            >
+            MUSCAT<br />BULLION
+            </div>
+
+          <div className="subtitle mt-1" style={{ fontSize: '12px', lineHeight: '1' }}>
+            <div><strong>Sale of Gold & Silver Bullion</strong></div>
+            <div><strong>بيع سبائك الذهب والفضة</strong></div>
+          </div>
+        </div>
+
+        {/* Right Side: Company Block */}
+        <div className="company-block text-left" style={{ fontSize: '12px', lineHeight: '1.5' }}>
+          <div>MUSCAT INTERNATIONAL BULLION L.L.C</div>
+          <div>مسقط الدولية للسبائك ذ.م.م</div>
+          <div>{shop.address}</div>
+          <div>{shop.address_ar}</div>
+          {/* <div>Shop No 1013,Way No.1423,Muttrah Gold Souq</div>
+          <div>المحل رقم 1013، الطريق رقم 1423، سوق مطرح للذهب</div> */}
+          {/* <div>{shop.address}</div>
+          <div>{shop.address_ar}</div>  */}
+          {/* <div>P.O Box: 3062, PC:112, Ruwi, Sultanate of Oman</div>
+          <div>ص.ب.: 3062، الرمز البريدي: 112، روي، سلطنة عمان</div> */}
+          {/* <div>P.O Box: 590, PC:117, Wadi Al Kabir</div>
+          <div>ص.ب.: 590، الرمز البريدي: 117، وادي الكبير</div> */}
+          <div>www.muscatbullion.com</div>
+          <div>VATIN: OM1100325835</div>
+          <div><strong>Tel: +968 24837434, 24714741</strong></div>
+        </div>
+      </div>
+
+      {/* ===== TITLE ===== */}
+      <div
+  style={{
+    position: "relative",
+    margin: "4px 0",
+    textAlign: "center"
+  }}
+>
+  {/* Center Title */}
+  <div
+    className="title"
+    style={{
+      fontSize: "11px",
+      fontWeight: "bold"
+    }}
+  >
+          GOLD RECEIVE VOUCHER 
+        </div>
+
+        {/* Right Side Copy */}
+        <strong
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            textDecoration: "underline",
+            color: "#666",
+            fontSize: "12px",
+            fontWeight: "bold"
+          }}
+        >
+          {copyType}
+        </strong>
+      </div>
+      
+      <div
+          className="mt-1"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "10px"
+          }}
+        >
+          <strong>To.</strong>
+          
+        </div>
+
+      {/* ===== CUSTOMER + INVOICE ===== */}
+      <div className="info-section flex justify-between w-full mb-1">
+
+        {/* Customer Box */}
+        <table className="customer-box border border-black border-collapse" style={{ fontSize: '9px', width: '49%' }}>
+          <tbody>
+            <tr><td colSpan="2" className="p-1 fw-bold"><b>{customer.name}</b></td></tr>
+            <tr><td className="p-1">Address | عنوان</td><td className="p-1">{customer.address}</td></tr>
+            <tr><td className="p-1">Telephone No. | رقم الهاتف</td><td className="p-1">{customer.phone}</td></tr>
+            <tr><td className="p-1">C/O | شخص مسؤول</td><td className="p-1">{customer.name}</td></tr>
+            <tr><td className="p-1">CR/ID No. | الرقم المدني/ رقم السجل</td><td className="p-1">{customer.civilId}</td></tr>
+            <tr><td className="p-1">Card Expiry | انتهاء صلاحية البطاقة</td><td className="p-1">{customer.cardExpiry}</td></tr>
+          </tbody>
+        </table>
+
+        {/* Invoice Box */}
+        <table className="invoice-box border border-black border-collapse" style={{ fontSize: '9px', width: '49%' }}>
+          <tbody>
+            <tr><td className="p-1">Invoice No | رقم الفاتورة</td><td className="p-1">{invoice.invoiceNumber}</td></tr>
+            <tr><td className="p-1">Date | تاريخ</td><td className="p-1">{invoice.invoiceDate}</td></tr>
+            <tr><td className="p-1">Prepared By | أُعدت بواسطة</td><td className="p-1">{name}</td></tr>
+            <tr><td className="p-1">Branch | فرع</td><td className="p-1">{shop.name}</td></tr>
+            <tr><td className="p-1">Customer Type | نوع العميل</td><td className="p-1">{customer.type}</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      {/* ===== ITEMS TABLE ===== */}
+
+<table
+  className="items border border-black border-collapse w-full mb-1"
+  style={{ fontSize: "9px" }}
+>
+  <thead style={{ backgroundColor: "#e5e5e5" }}>
+    <tr>
+      <th className="p-1 border border-black" style={{width:'5%'}}>No<br />رقم</th>
+      <th className="p-1 border border-black" style={{width:'50%'}}>Description</th>
+      <th className="p-1 border border-black" style={{width:'10%'}}>PCS</th>
+      <th className="p-1 border border-black"style={{width:'10%'}}>Gross</th>
+      <th className="p-1 border border-black"style={{width:'10%'}}>Purity</th>
+      <th className="p-1 border border-black"style={{width:'15%'}}>Pure Weight</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {/* Dynamic Items */}
+    {items.map((item, i) => (
+      <tr key={i}>
+        <td className="p-1 border border-black">{i + 1}</td>
+        <td className="p-1 border border-black">{item.name}</td>
+        <td className="p-1 border border-black">{item.quantity}</td>
+        <td className="p-1 border border-black">{item.price.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.purity.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.total.toFixed(3)}</td>
+      </tr>
+    ))}
+
+    {/* Empty rows to maintain height */}
+    {Array.from({ length: emptyRows }).map((_, i) => (
+      <tr key={"empty" + i}>
+        <td className="p-1 border border-black">&nbsp;</td>
+        <td className="p-1 border border-black"></td>
+        <td className="p-1 border border-black"></td>
+        <td className="p-1 border border-black"></td>
+        <td className="p-1 border border-black"></td>
+        <td className="p-1 border border-black"></td>
+      </tr>
+    ))}
+
+    {/* Totals */}
+    <tr>
+      <td colSpan="2" className="p-1 border border-black text-center fw-bold">Total </td>
+      <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.quantity, 0)}</td>
+      <td className="p-1 border border-black">{(items.reduce((sum, i) => sum + i.price, 0)).toFixed(3)}</td>
+      <td className="p-1 border border-black"></td>
+      <td className="p-1 border border-black">{invoice.total.toFixed(3)}</td>
+    </tr>
+
+    {/* <tr>
+      <td colSpan="5" className="p-1 border border-black text-start">VAT (5%) On Workmanship | ضريبة القيمة المضافة (٥٪) على المصنعية</td>
+      <td className="p-1 border border-black">5%</td>
+      <td className="p-1 border border-black"></td>
+      <td className="p-1 border border-black">0.000</td>
+    </tr> */}
+
+    {/* <tr style={{ backgroundColor: "#e5e5e5" }}>
+      <td colSpan="7" className="p-1 border border-black text-start" >Totals</td>
+      <td className="p-1 border border-black">{invoice.total}</td>
+    </tr> */}
+
+    {/* <tr>
+      <td colSpan="7" className="p-1 border border-black text-start">Discount</td>
+      <td className="p-1 border border-black">{invoice.discount}</td>
+    </tr> */}
+
+    {/* <tr style={{ backgroundColor: "#e5e5e5" }}>
+      <td colSpan="7" className="p-1 border border-black fw-bold" >
+         Total Amount Due | المبلغ الإجمالي المستحق
+      </td>
+      <td className="p-1 border border-black font-bold">{invoice.finalTotal.toFixed(3)}</td>
+    </tr> */}
+  </tbody>
+</table>
+
+      {/* ===== NOTES ===== */}
+      <table className="notes border border-black border-collapse w-full mb-1" style={{ fontSize: '10px',width: '100%' }}>
+        <tbody>
+          <tr style={{ height: "20px" }}>
+            <td rowSpan={2} className="font-semibold align-middle text-center p-1 border border-black" style={{width:'20%'}}>Notes</td>
+            <td className="p-1 border border-black">{line1}</td>
+          </tr>
+          <tr style={{ height: "20px" }}>
+            <td className="p-1 border border-black">{line2}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* ===== REMARKS ===== */}
+      <div
+        className="remarks mb-1"
+        style={{
+          fontSize: "9px",
+          display: "flex"
+        }}
+      >
+        <b style={{ width: "80px" }}>Remarks </b>
+
+        
+      </div>
+      {/* ===== TERMS ===== */}
+<table
+  className="w-full border border-black border-collapse mb-1"
+  style={{ fontSize: "9.5px", tableLayout: "fixed",width:'inherit',lineHeight:1.5 }}
+>
+  <tbody>
+    <tr>
+      <td
+        style={{ width: "100%" }}
+        className="p-1 align-top font-bold"
+      >
+        <strong style={{textDecoration: "underline",
+            fontSize: "12px",
+            fontWeight: "bold"}}> Terms & Conditions:</strong>
+        <br/>
+        <strong>
+          1.Goods must be delivered only to the authorised representative of the company.<br/>
+          2.Goods are subject to checking of purity and authenticity of the same.</strong>
+      </td>
+    </tr>
+  </tbody>
+</table>
+      {/* ===== SIGNATURES ===== */}
+      <div>
+        <span>Confirmed for & Behalf of |  تم التأكيد نيابة عن     </span>
+        </div>
+        <div
+          className="mt-1"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "10px"
+          }}
+        >
+          <strong>{customer.name}</strong>
+          <strong>For MUSCAT BULLION</strong>
+        </div>
+        
+      
+      <div className="signatures flex justify-between mt-4">
+        <div className="text-center w-1/3" >
+          <hr className="border-black" />
+          <span className="block mt-1 text-sm" >Customer Name & Signature</span><br/>
+          <span style={{lineHeight: '3'}}>اسم العميل وتوقيعه</span>
+        </div>
+        <div className="text-center w-1/3">
+          <hr className="border-black" />
+          <span className="block mt-1 text-sm">Checked By</span><br/>
+          <span style={{lineHeight: '3'}}>تم الفحص بواسطة</span>
+        </div>
+        <div className="text-center w-1/3">
+          <hr className="border-black" />
+          <span className="block mt-1 text-sm">Authorized Signatory</span><br/>
+          <span style={{lineHeight: '3'}}>المفوض بالتوقيع</span>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+export default GoldReceiveInvoiceTemplate;

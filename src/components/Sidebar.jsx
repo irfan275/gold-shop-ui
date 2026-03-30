@@ -80,6 +80,17 @@ function Sidebar() {
             Gold Payment
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/goldreceive"
+            className={({ isActive }) =>
+              "menu-link" + (isActive ? " active" : "")
+            }
+          >
+            <FaFileInvoice className="menu-icon" />
+            Gold Receive
+          </NavLink>
+        </li>
 
           {user?.role !== "EMPLOYEE" && (
         <li>
