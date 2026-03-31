@@ -114,7 +114,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
       fontWeight: "bold"
     }}
   >
-          GOLD RECEIVE VOUCHER 
+          GOLD Receipt VOUCHER 
         </div>
 
         {/* Right Side Copy */}
@@ -177,7 +177,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
 
 <table
   className="items border border-black border-collapse w-full mb-1"
-  style={{ fontSize: "9px" }}
+  style={{ fontSize: "10px", lineHeight:1.5 }}
 >
   <thead style={{ backgroundColor: "#e5e5e5" }}>
     <tr>
@@ -251,7 +251,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
 </table>
 
       {/* ===== NOTES ===== */}
-      <table className="notes border border-black border-collapse w-full mb-1" style={{ fontSize: '10px',width: '100%' }}>
+      <table className="notes border border-black border-collapse w-full mb-1" style={{ lineHeight:1.5,fontSize: '10px',width: '100%' }}>
         <tbody>
           <tr style={{ height: "20px" }}>
             <td rowSpan={2} className="font-semibold align-middle text-center p-1 border border-black" style={{width:'20%'}}>Notes</td>
@@ -278,7 +278,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
       {/* ===== TERMS ===== */}
 <table
   className="w-full border border-black border-collapse mb-1"
-  style={{ fontSize: "9.5px", tableLayout: "fixed",width:'inherit',lineHeight:1.5 }}
+  style={{ fontSize: "9.5px", tableLayout: "fixed",width:'stretch',lineHeight:1.7 }}
 >
   <tbody>
     <tr>
@@ -298,7 +298,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
   </tbody>
 </table>
       {/* ===== SIGNATURES ===== */}
-      <div>
+      <div style={{lineHeight:1.5}}>
         <span>Confirmed for & Behalf of |  تم التأكيد نيابة عن     </span>
         </div>
         <div
@@ -306,7 +306,8 @@ const [line1, line2] = getNoteLines(invoice.notes);
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: "10px"
+            fontSize: "10px",
+            lineHeight:1.5
           }}
         >
           <strong>{customer.name}</strong>
@@ -318,17 +319,17 @@ const [line1, line2] = getNoteLines(invoice.notes);
         <div className="text-center w-1/3" >
           <hr className="border-black" />
           <span className="block mt-1 text-sm" >Customer Name & Signature</span><br/>
-          <span style={{lineHeight: '3'}}>اسم العميل وتوقيعه</span>
+          <span style={{lineHeight: '4'}}>اسم العميل وتوقيعه</span>
         </div>
         <div className="text-center w-1/3">
           <hr className="border-black" />
           <span className="block mt-1 text-sm">Checked By</span><br/>
-          <span style={{lineHeight: '3'}}>تم الفحص بواسطة</span>
+          <span style={{lineHeight: '4'}}>تم الفحص بواسطة</span>
         </div>
         <div className="text-center w-1/3">
           <hr className="border-black" />
           <span className="block mt-1 text-sm">Authorized Signatory</span><br/>
-          <span style={{lineHeight: '3'}}>المفوض بالتوقيع</span>
+          <span style={{lineHeight: '4'}}>المفوض بالتوقيع</span>
         </div>
       </div>
 
