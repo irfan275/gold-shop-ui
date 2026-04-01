@@ -90,6 +90,7 @@ useEffect(() => {
 
   if (user?.role === "EMPLOYEE") {
     setSelectedShop(user.shopId);
+     handleShopChange(user.shopId);
   }
 }, []);
 useEffect(() => {
