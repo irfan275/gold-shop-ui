@@ -179,6 +179,7 @@ const handleSelectItem = (item) => {
     setQuantity(1);
     setPremium("");
     setDiscount(0);
+    setPurity("");
     setVat(0);
     setWeight("");
     setShowPreview(false);
@@ -465,15 +466,15 @@ const handlePreview = () => {
           <label className="form-label">Quantity</label>
           <input className="form-control" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         </div>
-        {/* <div className="col-md-2">
+        <div className="col-md-2">
           <label className="form-label">Premium</label>
           <input className="form-control" value={premium} onChange={(e) => setPremium(e.target.value)} />
-        </div> */}
-        <div className="col-md-2">
+        </div>
+        <div className="col-md-1">
           <label className="form-label">Weight</label>
           <input className="form-control" value={weight} onChange={(e) => setWeight(e.target.value)} />
         </div>
-        <div className="col-md-2">
+        <div className="col-md-1">
           <label className="form-label">Purity</label>
           <input className="form-control" value={purity} onChange={(e) => setPurity(e.target.value)} />
         </div>

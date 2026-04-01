@@ -131,7 +131,7 @@ const handleCustomerSelection = async (c) => {
 
   // ------------------ DELETE ITEM ------------------
   const handleDeleteItem = (id) => {
-    setInvoiceItems(invoiceItems.filter((i) => i._id !== id));
+    setInvoiceItems(invoiceItems.filter((i) => i.id !== id));
     setShowPreview(false);
   };
 
@@ -400,7 +400,7 @@ const handlePreview = () => {
               <td>{i.particular}</td>
               <td>{i.type}</td>
               <td>{i.price}</td>
-              <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i._id)}>Delete</button></td>
+              <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i.id)}>Delete</button></td>
             </tr>
           ))}
         </tbody>
