@@ -232,7 +232,7 @@ const formatDate = (date) => {
             <tr key={inv._id}>
               <td>{inv.invoiceNumber}</td>
               <td>{inv.customerId?.name}</td>
-              <td>{inv.total}</td>
+              <td>{inv.finalTotal}</td>
               <td>{formatDate(inv.updatedAt)}</td>
               <td>{inv.createdBy?.name}</td>
 

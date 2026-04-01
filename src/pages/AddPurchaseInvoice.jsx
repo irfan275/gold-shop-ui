@@ -186,7 +186,7 @@ const handleSelectItem = (item) => {
 
   // ------------------ DELETE ITEM ------------------
   const handleDeleteItem = (id) => {
-    setInvoiceItems(invoiceItems.filter((i) => i._id !== id));
+    setInvoiceItems(invoiceItems.filter((i) => i.id !== id));
     setShowPreview(false);
   };
 
@@ -506,7 +506,7 @@ const handlePreview = () => {
               <td><input type="number" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.purity} onChange={(e) => handleEditItem(i.id, "purity", e.target.value)} /></td>
               <td>{i.total}</td>
-              <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i._id)}>Delete</button></td>
+              <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i.id)}>Delete</button></td>
             </tr>
           ))}
         </tbody>

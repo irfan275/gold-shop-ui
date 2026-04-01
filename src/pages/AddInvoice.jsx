@@ -195,7 +195,7 @@ const handleSelectItem = (item) => {
 
   // ------------------ DELETE ITEM ------------------
   const handleDeleteItem = (id) => {
-    setInvoiceItems(invoiceItems.filter((i) => i._id !== id));
+    setInvoiceItems(invoiceItems.filter((i) => i.id !== id));
     //setShowPreview(false);
   };
 
@@ -218,14 +218,14 @@ const calculateVAT = (items) => {
 
   items.forEach((item) => {
     //const premium = item.weight * item.pricePerGram;
-    if(item.type == 'Gold')
-    {
+    // if(item.type == 'Gold')
+    // {
       if (item.purity >= 995 && item.purity <= 999) {
         highPurityTotal += item.premium || 0;
       } else {
         lowPurityTotal += item.price ;
       }
-    }
+    //}
     
   });
 
@@ -569,7 +569,7 @@ const handleImageUpload = (e) => {
               <td><input type="number" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
               <td><input type="number" className="form-control" value={i.purity} onChange={(e) => handleEditItem(i.id, "purity", e.target.value)} /></td>
               <td>{i.total}</td>
-              <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i._id)}>Delete</button></td>
+              <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i.id)}>Delete</button></td>
             </tr>
           ))}
         </tbody>
