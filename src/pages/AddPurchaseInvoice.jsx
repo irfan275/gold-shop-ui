@@ -98,6 +98,7 @@ useEffect(() => {
 
   if (user?.role === "EMPLOYEE") {
     setSelectedShop(user.shopId);
+    if(!isEditMode)
      handleShopChange(user.shopId);
   }
 }, []);
