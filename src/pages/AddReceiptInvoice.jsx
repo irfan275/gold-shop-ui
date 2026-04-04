@@ -340,7 +340,7 @@ const handlePreview = () => {
     <div className="col-md-12">
 
       <strong>Phone:</strong> {selectedCustomer.phone} &nbsp; | &nbsp;
-      <strong>Address:</strong> {selectedCustomer.address}
+      <strong>Nationality:</strong> {selectedCustomer.address}
 
     </div>
 

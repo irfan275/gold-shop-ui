@@ -8,7 +8,7 @@ function GoldReceive() {
   const navigate=useNavigate();
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
-  const [size] = useState(10);
+  const [size] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
   const [customerSearch, setCustomerSearch] = useState("");
   const [customerResults, setCustomerResults] = useState([]);

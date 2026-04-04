@@ -172,7 +172,7 @@ const handlePageChange = (pageNumber) => {
             <th>Name</th>
             <th>Phone</th>
             <th>CR/ID No</th>
-            <th>Address</th>
+            <th>Nationality</th>
             <th>Card Expiry</th>
             <th>Customer Type</th>
             <th>Action</th>
@@ -281,7 +281,7 @@ const handlePageChange = (pageNumber) => {
                 </div>
 
                 <div className="row mb-2">
-                  <div className="col-3"><label className="form-label">Address</label></div>
+                  <div className="col-3"><label className="form-label">Nationality</label></div>
                   <div className="col-9">
                     <input
                       className="form-control"

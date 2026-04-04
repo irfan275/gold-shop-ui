@@ -153,7 +153,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
         <table className="customer-box border border-black border-collapse" style={{ fontSize: '9px', width: '49%' }}>
           <tbody>
             <tr><td colSpan="2" className="p-1 fw-bold"><b>{customer.name}</b></td></tr>
-            <tr><td className="p-1">Address | عنوان</td><td className="p-1">{customer.address}</td></tr>
+            <tr><td className="p-1">Nationality | جنسية</td><td className="p-1">{customer.address}</td></tr>
             <tr><td className="p-1">Telephone No. | رقم الهاتف</td><td className="p-1">{customer.phone}</td></tr>
             <tr><td className="p-1">C/O | شخص مسؤول</td><td className="p-1">{customer.name}</td></tr>
             <tr><td className="p-1">CR/ID No. | الرقم المدني/ رقم السجل</td><td className="p-1">{customer.civilId}</td></tr>
