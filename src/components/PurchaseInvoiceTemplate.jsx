@@ -230,10 +230,10 @@ const silverRate = totals.silverWeight
         <td className="p-1 border border-black">{i + 1}</td>
         <td className="p-1 border border-black">{item.itemId?.name}</td>
         <td className="p-1 border border-black">{item.quantity}</td>
-        <td className="p-1 border border-black">{item.purity.toFixed(1)}</td>
+        <td className="p-1 border border-black">{item.purity?.toFixed(1)}</td>
         <td className="p-1 border border-black">{item.weight}</td>
-        <td className="p-1 border border-black">{item.price.toFixed(3)}</td>
-        <td className="p-1 border border-black">{item.premium.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.price?.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.premium?.toFixed(3)}</td>
         <td className="p-1 border border-black">{item.total.toFixed(3)}</td>
       </tr>
     ))}
