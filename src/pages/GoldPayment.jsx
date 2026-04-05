@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { deleteInvoice, getInvoices } from "../services/goldPaymetService";
 import Pagination from "./Pagination";
 import { getCustomers } from "../services/customerService";
+import { format } from "date-fns"; // optional, makes date formatting easier
 
 function GoldPayment() {
+  const today = format(new Date(), "dd-MMM-yyyy"); // e.g., "05-Apr-2026"
   const navigate=useNavigate();
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
@@ -237,10 +239,11 @@ const formatDate = (date) => {
               <td>{inv.createdBy?.name}</td>
 
               <td>
-
+{(user?.role !== 'EMPLOYEE' || inv.invoiceDate === today) && (
                 <button className="btn btn-sm btn-warning mx-1" onClick={() => navigate(`/goldpayment/edit/${inv._id}`)}>
                   Edit
                 </button>
+)}
                 <button
                   className="btn btn-sm btn-primary mx-1"
                   onClick={() => handlePrint(inv)}
