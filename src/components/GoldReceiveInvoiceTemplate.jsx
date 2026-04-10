@@ -156,7 +156,7 @@ const [line1, line2] = getNoteLines(invoice.notes);
             <tr><td className="p-1">Telephone No. | رقم الهاتف</td><td className="p-1">{customer.phone}</td></tr>
             <tr><td className="p-1">C/O | شخص مسؤول</td><td className="p-1">{customer.name}</td></tr>
             <tr><td className="p-1">CR/ID No. | الرقم المدني/ رقم السجل</td><td className="p-1">{customer.civilId}</td></tr>
-            <tr><td className="p-1">Card Expiry | انتهاء صلاحية البطاقة</td><td className="p-1">{customer.cardExpiry}</td></tr>
+            <tr style={{ height: "20px" }}><td className="p-1" ></td><td className="p-1"></td></tr>
           </tbody>
         </table>
 

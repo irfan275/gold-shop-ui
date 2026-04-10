@@ -155,6 +155,15 @@ const handleSelectItem = (item) => {
   setShowDropdown(false);
   setShowPreview(false);
 };
+const handleQuantiy = (e) => {
+  if(e.target.value !=="")
+  {
+  
+  setWeight(selectedItem.weight*Number(e.target.value || 1));
+  }
+  setQuantity(e.target.value);
+
+}
   // ------------------ ADD ITEM ------------------
   const handleAddItem = () => {
     if (!selectedItem || !price || !quantity) {
@@ -466,7 +475,7 @@ const handlePreview = () => {
         </div>
         <div className="col-md-2">
           <label className="form-label">Quantity</label>
-          <input className="form-control" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+          <input className="form-control" value={quantity} onChange={handleQuantiy} />
         </div>
         <div className="col-md-2">
           <label className="form-label">Premium</label>
