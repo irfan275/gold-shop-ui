@@ -257,6 +257,7 @@ const handlePageChange = (pageNumber) => {
                   <div className="col-3"><label className="form-label">CR/ID No</label></div>
                   <div className="col-9">
                     <input
+                    type="text"
                       className="form-control"
                       name="civilId"
                       value={form.civilId}
