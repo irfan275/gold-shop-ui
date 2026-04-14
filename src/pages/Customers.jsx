@@ -9,7 +9,7 @@ function Customers() {
   const [editId, setEditId] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
-  const [size] = useState(10);
+  const [size] = useState(50);
   const [totalPages, setTotalPages] = useState(0);
 
   const [form, setForm] = useState({

@@ -12,7 +12,7 @@ function Invoices() {
   const navigate=useNavigate();
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
-  const [size] = useState(20);
+  const [size] = useState(50);
   const [totalPages, setTotalPages] = useState(0);
   const [customerSearch, setCustomerSearch] = useState("");
   const [customerResults, setCustomerResults] = useState([]);
