@@ -44,7 +44,7 @@ const [showDropdown, setShowDropdown] = useState(false);
   // ------------------ CUSTOMER SEARCH ------------------
   useEffect(() => {
 
-    if (customerSearch.length < 3 || selectedCustomer) {
+    if (customerSearch.length < 3 || (selectedCustomer && customerSearch === selectedCustomer.name)) {
       setCustomerResults([]);
       return;
     }

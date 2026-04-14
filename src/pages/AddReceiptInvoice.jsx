@@ -35,7 +35,7 @@ const [selectedItem, setSelectedItem] = useState(null);
   // ------------------ CUSTOMER SEARCH ------------------
   useEffect(() => {
 
-    if (customerSearch.length < 3 || selectedCustomer) {
+    if (customerSearch.length < 3 || (selectedCustomer && customerSearch === selectedCustomer.name)) {
       setCustomerResults([]);
       return;
     }
