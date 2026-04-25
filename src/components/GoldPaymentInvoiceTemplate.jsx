@@ -197,8 +197,8 @@ const [line1, line2] = getNoteLines(invoice.notes);
         <td className="p-1 border border-black">{i + 1}</td>
         <td className="p-1 border border-black">{item.name}</td>
         <td className="p-1 border border-black">{item.quantity}</td>
-        <td className="p-1 border border-black">{item.price.toFixed(3)}</td>
-        <td className="p-1 border border-black">{item.purity.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.price?.toFixed(3)}</td>
+        <td className="p-1 border border-black">{item.purity?.toFixed(3)}</td>
         <td className="p-1 border border-black">{item.total.toFixed(3)}</td>
       </tr>
     ))}

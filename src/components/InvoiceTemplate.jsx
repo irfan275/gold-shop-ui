@@ -74,6 +74,13 @@ const totals = items.reduce(
     silverPrice: 0
   }
 );
+const formatAmount = (value, decimals = 3) => {
+  const num = Number(value);
+
+  if (isNaN(num)) return "0.000";
+
+  return num.toFixed(decimals);
+};
 const goldRate = totals.goldWeight
   ? totals.goldPrice / totals.goldWeight
   : 0;
@@ -229,11 +236,11 @@ const silverRate = totals.silverWeight
         <td className="p-1 border border-black">{i + 1}</td>
         <td className="p-1 border border-black">{item.itemId?.name}</td>
         <td className="p-1 border border-black">{item.quantity}</td>
-        <td className="p-1 border border-black">{item.purity.toFixed(1)}</td>
+        <td className="p-1 border border-black">{formatAmount(item.purity,1)}</td>
         <td className="p-1 border border-black">{item.weight}</td>
-        <td className="p-1 border border-black">{item.price.toFixed(3)}</td>
-        <td className="p-1 border border-black">{item.premium.toFixed(3)}</td>
-        <td className="p-1 border border-black">{item.total.toFixed(3)}</td>
+        <td className="p-1 border border-black">{formatAmount(item.price,3)}</td>
+        <td className="p-1 border border-black">{formatAmount(item.premium,3)}</td>
+        <td className="p-1 border border-black">{formatAmount(item.total,3)}</td>
       </tr>
     ))}
 
@@ -259,31 +266,31 @@ const silverRate = totals.silverWeight
       <td className="p-1 border border-black">{items.reduce((sum, i) => sum + i.weight, 0)}</td>
       <td className="p-1 border border-black">{(items.reduce((sum, i) => sum + i.price, 0)).toFixed(3)}</td>
       <td className="p-1 border border-black">{(items.reduce((sum, i) => sum + i.premium, 0)).toFixed(3)}</td>
-      <td className="p-1 border border-black">{(invoice.subTotal).toFixed(3)}</td>
+      <td className="p-1 border border-black">{formatAmount(invoice.subTotal,3)}</td>
     </tr>
 
     <tr>
       <td colSpan="5" className="p-1 border border-black text-start">VAT (5%) On Workmanship | ضريبة القيمة المضافة (٥٪) على المصنعية</td>
       <td className="p-1 border border-black">5%</td>
       <td className="p-1 border border-black"></td>
-      <td className="p-1 border border-black">{(invoice.vat).toFixed(3)}</td>
+      <td className="p-1 border border-black">{formatAmount(invoice.vat,3)}</td>
     </tr>
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
       <td colSpan="7" className="p-1 border border-black text-start fw-bold" >Totals | المجموع</td>
-      <td className="p-1 border border-black">{invoice.total.toFixed(3)}</td>
+      <td className="p-1 border border-black">{formatAmount(invoice.total,3)}</td>
     </tr>
 
     <tr>
       <td colSpan="7" className="p-1 border border-black text-start">Discount | تخفيض</td>
-      <td className="p-1 border border-black">{invoice.discount.toFixed(3)}</td>
+      <td className="p-1 border border-black">{formatAmount(invoice.discount,3)}</td>
     </tr>
 
     <tr style={{ backgroundColor: "#e5e5e5" }}>
       <td colSpan="7" className="p-1 border border-black fw-bold" >
         Total Amount Due | المبلغ الإجمالي المستحق
       </td>
-      <td className="p-1 border border-black fw-bold">{invoice.finalTotal.toFixed(3)}</td>
+      <td className="p-1 border border-black fw-bold">{formatAmount(invoice.finalTotal,3)}</td>
     </tr>
   </tbody>
 </table>
@@ -314,7 +321,7 @@ const silverRate = totals.silverWeight
         <div>
           {totals.goldWeight > 0 && (
             <span> <strong>Gold: </strong>
-              {totals.goldWeight.toFixed(3)} 24K Grams SALE @ {goldRate.toFixed(3)} OMR Per Gram
+              {formatAmount(totals.goldWeight,3)} 24K Grams SALE @ {formatAmount(goldRate,3)} OMR Per Gram
             </span>
           )}
 
@@ -324,7 +331,7 @@ const silverRate = totals.silverWeight
             
             <span>
               <strong>Silver: </strong>
-              {totals.silverWeight.toFixed(3)} Grams SALE @ {silverRate.toFixed(3)} OMR Per Gram
+              {formatAmount(totals.silverWeight,3)} Grams SALE @ {formatAmount(silverRate,3)} OMR Per Gram
             </span>
           )}
         </div>
