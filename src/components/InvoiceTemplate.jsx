@@ -52,7 +52,7 @@ function InvoiceTemplate({ invoice ,copyType}) {
 const [line1, line2] = getNoteLines(invoice.notes);
 const totals = items.reduce(
   (acc, item) => {
-    const weight = Number(item.weight) || 0;
+    const weight = Number(item.weight/item.quantity) || 0;
     const price = Number(item.price) || 0;
 
     if (item.type === "Gold") {
