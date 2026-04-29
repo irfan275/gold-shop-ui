@@ -52,19 +52,22 @@ function PurchaseInvoiceTemplate({ invoice ,copyType}) {
 const [line1, line2] = getNoteLines(invoice.notes);
 const totals = items.reduce(
   (acc, item) => {
+
+    const perItemWeight = Number(item.weight/item.quantity) || 0;
     const weight = Number(item.weight) || 0;
-    const price = Number(item.price) || 0;
+    const price = Number(item.price*item.quantity) || 0;
 
     if (item.type === "Gold") {
       acc.goldWeight += weight;
       acc.goldPrice += price;
+      acc.perItemWeight += perItemWeight
     }
 
     if (item.type === "Silver") {
       acc.silverWeight += weight;
       acc.silverPrice += price;
+      acc.perItemWeight += perItemWeight
     }
-
     return acc;
   },
   {
