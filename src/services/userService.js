@@ -24,3 +24,10 @@ export const getShops = async () => {
 export const getShopById = async (id) => {
   return api.get(`shop/${id}`);
 };
+
+export const createSecret = async (id) => {
+  return api.post(`${API_URL}/2fa/generate/${id}`);
+};
+export const getSecret = async (id) => {
+  return api.get(`${API_URL}/2fa/secret/${id}`);
+};
