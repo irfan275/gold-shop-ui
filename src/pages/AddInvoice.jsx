@@ -167,6 +167,7 @@ const handleQuantiy = (e) => {
   {
   
   setWeight(selectedItem.weight*Number(e.target.value || 1));
+  setPremium(selectedItem.premium*Number(e.target.value || 1));
   }
   setQuantity(e.target.value);
 
@@ -584,11 +585,11 @@ const handleImageUpload = (e) => {
           {invoiceItems.map((i) => (
             <tr key={i.id}>
               <td>{i.name?i.name:i.itemId.name}</td>
-              <td><input type="text" className="form-control" value={i.price} onChange={(e) => handleEditItem(i.id, "price", e.target.value)} /></td>
-              <td><input type="text" className="form-control" value={i.quantity} onChange={(e) => handleEditItem(i.id, "quantity", e.target.value)} /></td>
-              <td><input type="text" className="form-control" value={i.premium} onChange={(e) => handleEditItem(i.id, "premium", e.target.value)} /></td>
-              <td><input type="text" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
-              <td><input type="text" className="form-control" value={i.purity} onChange={(e) => handleEditItem(i.id, "purity", e.target.value)} /></td>
+              <td><input readOnly type="text" className="form-control" value={i.price} onChange={(e) => handleEditItem(i.id, "price", e.target.value)} /></td>
+              <td><input readOnly type="text" className="form-control" value={i.quantity} onChange={(e) => handleEditItem(i.id, "quantity", e.target.value)} /></td>
+              <td><input readOnly type="text" className="form-control" value={i.premium} onChange={(e) => handleEditItem(i.id, "premium", e.target.value)} /></td>
+              <td><input readOnly type="text" className="form-control" value={i.weight} onChange={(e) => handleEditItem(i.id, "weight", e.target.value)} /></td>
+              <td><input readOnly type="text" className="form-control" value={i.purity} onChange={(e) => handleEditItem(i.id, "purity", e.target.value)} /></td>
               <td>{i.total}</td>
               <td><button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(i)}>Delete</button></td>
             </tr>
