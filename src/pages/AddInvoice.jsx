@@ -309,7 +309,7 @@ const calculateVAT = (items) => {
       let invoice = await createInvoice(payload);
       setInvoiceId(invoice.data.data._id);
       alert("Invoice created");
-
+      navigate("/invoices")
     }
 
     // setSelectedCustomer(null);
